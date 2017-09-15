@@ -1,5 +1,6 @@
 var modeClaim = true;
-var claimCon = true;
+var claimCon = false;
+var reserve = true;
 
 var roleClaimer = {
     
@@ -23,6 +24,14 @@ var roleClaimer = {
             let target = creep.room.controller;
             if (target == undefined) return;
             if (creep.claimController(target) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(target, { visualizePathStyle: { stroke: '#22B91B' } });
+                return;
+            }
+        }
+        else if(reserve){
+            let target = creep.room.controller;
+            if (target == undefined) return;
+            if (creep.reserveController(target) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(target, { visualizePathStyle: { stroke: '#22B91B' } });
                 return;
             }

@@ -1,25 +1,11 @@
 var roleRepair = {
 
     run: function(creep){
+        // Game.creeps.Mason.moveTo(new RoomPosition(25, 20, 'W43S27'));
 
-        //const repairTargets = creep.room.find(FIND_STRUCTURES, {filter: (structure) => { return(structure.structureType == STRUCTURE_WALL) && structure.hits < structure.hitsMax;}});
-
-        //console.log(_.min(repairTargets, 'hits'));
-        //repairTargets.sort((a,b) => a.hits - b.hits);
         
-         const targetx = creep.room.find(FIND_DROPPED_RESOURCES);
-            var shylo = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-                filter: (structure) => {
-                    return(
-                        (structure.structureType == STRUCTURE_WALL && structure.hits < 30000)
-                    || (structure.structureType == STRUCTURE_RAMPART && structure.hits < 10000)
-                    || (structure.structureType == STRUCTURE_ROAD && structure.hits < structure.hitsMax))}
-                });
-                
-                const shylo2 = creep.room.find(FIND_STRUCTURES, {filter: (structure) => { return((structure.structureType == STRUCTURE_WALL && structure.hits < 30000) || (structure.structureType == STRUCTURE_RAMPART && structure.hits < 10000) || (structure.structureType == STRUCTURE_ROAD && structure.hits < structure.hitsMax))}});
-                
-      //console.log(structure);
-          
+        const targetx = creep.room.find(FIND_DROPPED_RESOURCES, { filter: (r) => { return r.resourceType == RESOURCE_ENERGY; }});
+
         
         if(creep.memory.building && creep.carry.energy == 0) {
             creep.memory.building = false;
@@ -31,7 +17,12 @@ var roleRepair = {
         }
 
         if(creep.memory.building) {
-            const repairTargets = creep.room.find(FIND_STRUCTURES, {filter: (structure) => { return(structure.structureType == STRUCTURE_WALL || structure.structureType == STRUCTURE_RAMPART || structure.structureType == STRUCTURE_CONTAINER) && structure.hits < structure.hitsMax;}});
+            const repairTargets = creep.room.find(FIND_STRUCTURES, {
+                filter: (structure) => {
+                    return((structure.structureType == STRUCTURE_WALL && structure.hits < structure.hitsMax) || (structure.structureType == STRUCTURE_RAMPART && structure.hits < structure.hitsMax) 
+                    || (structure.structureType == STRUCTURE_CONTAINER) && structure.hits < structure.hitsMax) || (structure.structureType == STRUCTURE_ROAD && structure.hits < 3000)  ;}
+                
+            });
             repairTargets.sort((a,b) => a.hits - b.hits);
             //console.log(repairTargets[0]);
             if(repairTargets.length) {
@@ -52,16 +43,18 @@ var roleRepair = {
                 else if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
                 }
-                //}
+              /*  let storages = creep.room.storage;
+                if(creep.pos != storages.pos){
+                        creep.moveTo(storages,{reusePath: 10}, {visualizePathStyle: {stroke: '#ffffff'}});
+                         creep.say('hid');
+                         for(const resourceType in creep.carry) {
+                            creep.transfer(storages, resourceType);
+                        }
+                    } */
+                
         }
     }
 
 };
 
 module.exports = roleRepair;
-
-
-/*
-var repairSites = creep.pos.findInRange(FIND_STRUCTURES, range, {filter: structure =>
-                                                 (structure.structureType != STRUCTURE_ROAD || structure.pos.isNearTo(creep.pos)) && (((structure.structureType != STRUCTURE_WALL && structure.structureType != STRUCTURE_RAMPART) || structure.hits <= 15000) && structure.hitsMax - structure.hits >= healAmt)});
-*/

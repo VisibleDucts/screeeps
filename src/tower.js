@@ -12,14 +12,13 @@ var roleTower = {
             const repairTargets = tower.room.find(FIND_STRUCTURES, {filter: (structure) => { return(structure.structureType == STRUCTURE_WALL || structure.structureType == STRUCTURE_RAMPART || structure.structureType == STRUCTURE_CONTAINER) && structure.hits < structure.hitsMax;}});
             const can = tower.room.find(FIND_STRUCTURES, {filter: (structure) => { return(structure.structureType == STRUCTURE_CONTAINER) && structure.hits < structure.hitsMax;}});
             
-           // console.log(repairTargets + 'j');
+        
             var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (structure) => structure.hits < structure.hitsMax
             });
             var minClose = _.min(repairTargets, 'hits');
-           // var ratio = (minClose.hits / minClose.hitsMax) * 100;
                 
-            if(tower.energy > 600){
+            if(tower.energy > 600 && !closestHostile){
                 if(repairTargets) {
                     tower.repair(minClose);
                 }
@@ -28,7 +27,7 @@ var roleTower = {
                 tower.attack(closestHostile);
             }
                 
-            if(hurtCreep) {
+            if(!closestHostile && hurtCreep) {
                 tower.heal(hurtCreep)
             }
             

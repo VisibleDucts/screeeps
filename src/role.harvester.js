@@ -7,7 +7,12 @@ var roleHarvester = {
            // console.log(creep.room.conta
             if(creep.carry.energy < creep.carryCapacity) {
                     var sources = creep.room.find(FIND_SOURCES_ACTIVE);
-                    if(creep.harvest(sources[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
+                    if(creep.room == '[room W43S28]'){
+                        if(creep.harvest(sources[1], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
+                            creep.moveTo(sources[1], {visualizePathStyle: {stroke: '#ffaa00'}})
+                        }
+                    }
+                    else if(creep.room != '[room W43S28]' && creep.harvest(sources[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
                         creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}})
                     }
 

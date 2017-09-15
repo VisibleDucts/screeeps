@@ -2,12 +2,14 @@ var roleBuilder = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
-
+   // Game.creeps.Jeremiah.moveTo(new RoomPosition(25, 20, 'W43S27'));
         var sources = creep.room.find(FIND_STRUCTURES, {
             filter: (structure) => {
                 return (structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN);}
         });
-        const targetx = creep.room.find(FIND_DROPPED_RESOURCES);
+        const storages = creep.room.storage;
+        const targetx = creep.room.find(FIND_DROPPED_RESOURCES, { filter: (r) => { return r.resourceType == RESOURCE_ENERGY; }});
+       
         
         if(creep.memory.building && creep.carry.energy == 0) {
             creep.memory.building = false;
@@ -17,6 +19,11 @@ var roleBuilder = {
             creep.memory.building = true;
             creep.say('🚧 build');
         }
+        
+        
+
+       
+       
 
         if(creep.memory.building) {
             var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
@@ -45,12 +52,17 @@ var roleBuilder = {
                 }
                     
             }
+            if(storages && storages.store[RESOURCE_ENERGY] > 0){
+                if(creep.withdraw(storages, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
+                    creep.moveTo(storages);
+                }
+            }
             else if(creep.harvest(sourcesOG[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
                 creep.moveTo(sourcesOG[0], {visualizePathStyle: {stroke: '#ffaa00'}})
             }
         }
-
-
+    
+        
     }
 
 };
