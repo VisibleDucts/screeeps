@@ -38,6 +38,13 @@ var roleUpgrader = {
                     if(links[1].energy >= creep.carryCapacity && creep.withdraw(links[1], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
                         creep.moveTo(links[1])
                     }
+                    else{
+                        if(storages.store[RESOURCE_ENERGY] > 0){
+                            if(creep.withdraw(storages, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
+                                creep.moveTo(storages, {visualizePathStyle: {stroke:"red"}});
+                            }
+                        }
+                    }
                }
                else{
                
@@ -68,14 +75,15 @@ var roleUpgrader = {
                 else if(creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(sources[1], {visualizePathStyle: {stroke: '#ffaa00'}});
                 }
-               }
+               
             }
             if(creep.room.controller.sign == undefined){
                 if(creep.room.controller) {
-                    if(creep.signController(creep.room.controller, "[Unity Alliance] Territory") == ERR_NOT_IN_RANGE) {
+                   if (creep.signController(creep.room.controller, "[Former Ecorp Territory] f**k society") == ERR_NOT_IN_RANGE) {
                         creep.moveTo(creep.room.controller);
                     }
                 }
+            }
             }
         }
     };

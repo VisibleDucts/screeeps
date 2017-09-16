@@ -5,11 +5,12 @@ var healCreep = true;
 var roleHealer = {
     
     run: function(creep){
-        //var flag1 = "Attacks";
+       // var flag1 = "Attacks";
         //var flag1 = "Drain";
-       // var flag1 = 'Tank';
-       var flag1 = 'GoHere';
-   // creep.moveTo(Game.flags[flag1], { visualizePathStyle: { stroke: '#22B91B' } });
+        //var flag1 = 'Tank';
+       //var flag1 = 'GoHere';
+        var flag1 = 'AttackThere';
+       // creep.moveTo(Game.flags[flag1], { visualizePathStyle: { stroke: '#22B91B' } });
 
         if (modeOffensive){
             if (Game.flags[flag1] == undefined){

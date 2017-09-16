@@ -10,11 +10,9 @@ var roleRemoteRepair = {
         const repairTargets = creep.room.find(FIND_STRUCTURES, {filter: function(structure){
                     return ((structure.structureType == STRUCTURE_CONTAINER && structure.hits < 200000) || (structure.structureType == STRUCTURE_ROAD && structure.hits < 3000))
                 }});
-     //   const repairCans = creep.room.find(FIND_STRUCTURES, {filter: function(s){return s.structureType == STRUCTURE_CONTAINER && s.hits < 200000;}});
-                
-              // console.log(repairCans);
-       // console.log(can);
-        var fixit = Game.getObjectById('59bad1ae93782b607a184fd4');
+        //const repairCans = creep.room.find(FIND_STRUCTURES, {filter: function(s){return s.structureType == STRUCTURE_CONTAINER && s.hits < 200000;}});
+
+        //var fixit;
         if(creep.memory.building && creep.carry.energy == 0) {
             creep.memory.building = false;
             creep.say('🔄 harvest');
@@ -58,15 +56,10 @@ var roleRemoteRepair = {
             
         }
         
-        
-        
 
         if(creep.memory.building) {
             var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
-            
-            
-            
-            
+
             /*
             if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}});
@@ -100,33 +93,16 @@ var roleRemoteRepair = {
                 } */
             }
         }
-               //console.log(creep.room.controller.sign;
                if(creep.room.controller.sign == undefined){
                     creep.say('hi');
                     if(creep.room.controller) {
-                        if(creep.signController(creep.room.controller, "[Unity Alliance] Territory") == ERR_NOT_IN_RANGE) {
+                        if (creep.signController(creep.room.controller, "[Former Ecorp Territory] f**k society") == ERR_NOT_IN_RANGE) {
                             creep.moveTo(creep.room.controller);
                         }
                     }
                 }
         }
 
-            /*if(containers.length > 0 && creep.carry.energy > 0){
-                //console.log(containers[0].store);
-                if(creep.transfer(containers[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
-                    creep.moveTo(containers[0], {visualizePathStyle: {stroke:"red"}});
-                }
-            }
-            else { 
-                if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}});
-                }
-            //} */
-        
-        
-
-        
-    
 };
 
 module.exports = roleRemoteRepair;

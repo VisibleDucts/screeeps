@@ -4,7 +4,7 @@ var attackStructure = false;
 
 var roleAttack = {    
     run: function(creep, goal){
-         creep.moveTo(Game.flags[goal], { visualizePathStyle: { stroke: '#22B91B' } });
+        // creep.moveTo(Game.flags[goal], { visualizePathStyle: { stroke: '#22B91B' } });
         if (modeOffensive){
             if (Game.flags[goal] == undefined){
                 console.log("No " + goal + " Flag Found?");

@@ -12,7 +12,8 @@ var roleLinkHauler = {
     }); */
 
         var links = creep.room.find(FIND_STRUCTURES, { filter: (s) => {return s.structureType == STRUCTURE_LINK;}});
-        //Game.creeps.Gianna.moveTo(Game.spawns['Spawn2']);
+        
+      
          if(creep.memory.hauling && creep.carry.energy == 0) {
             creep.memory.hauling = false;
             creep.say('🔄 Retrieving');
@@ -22,8 +23,10 @@ var roleLinkHauler = {
             creep.memory.hauling = true;
             creep.say('Hauling');
         }
-        
-        if(!creep.memory.hauling){
+      /*  if(creep == Game.creeps.Sarah){
+            Game.creeps.Sarah.moveTo(Game.spawns['Spawn2']);
+        }
+        else*/ if(!creep.memory.hauling){
             if(roomID == 0){
                 var can = Game.getObjectById('59b3e88adc43b14dbbe76d54');
                 if(can.store[RESOURCE_ENERGY] >= 200 && (creep.withdraw(can, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE)){

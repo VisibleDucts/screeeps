@@ -2,7 +2,7 @@ var roleHauler = {
 
     run: function(creep, links){
        
-        //Game.creeps.Evan.moveTo(Game.flags['Main'].pos);
+       /// Game.creeps.Cole.moveTo(Game.flags['Main'].pos);
         var storages = creep.room.storage;
         var can = creep.room.find(FIND_STRUCTURES, { filter: function(structure){ return (structure.structureType == STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] > 20)}});
         var targets = creep.room.find(FIND_STRUCTURES, {
@@ -95,13 +95,14 @@ var roleHauler = {
                 }
                 
                 if(creep.room.energyAvailable == creep.room.energyCapacityAvailable){
+                    if(storages == undefined) return;
                     if(creep.pos != storages.pos){
                         creep.moveTo(storages,{reusePath: 10}, {visualizePathStyle: {stroke: '#ffffff'}});
                          creep.say('hid');
                          for(const resourceType in creep.carry) {
                             creep.transfer(storages, resourceType);
                         }
-                    }
+                    } 
                     
                     
                        

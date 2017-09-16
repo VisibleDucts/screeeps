@@ -1,13 +1,13 @@
 var roleTower = {
     
     run: function(tower){
-        
+        var AllianceMembers = ["Shylo132", "mnuck", "Name"];
         const hurtCreep = tower.pos.findClosestByRange(FIND_MY_CREEPS, {
             filter: function(object) {
                 return object.hits < object.hitsMax;
             }
         });
-        var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+        var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS, {filter: (p) => {return (p.owner.username != 'Shylo132');}});
         if(tower) {
             const repairTargets = tower.room.find(FIND_STRUCTURES, {filter: (structure) => { return(structure.structureType == STRUCTURE_WALL || structure.structureType == STRUCTURE_RAMPART || structure.structureType == STRUCTURE_CONTAINER) && structure.hits < structure.hitsMax;}});
             const can = tower.room.find(FIND_STRUCTURES, {filter: (structure) => { return(structure.structureType == STRUCTURE_CONTAINER) && structure.hits < structure.hitsMax;}});

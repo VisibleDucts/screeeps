@@ -20,7 +20,7 @@ var roleBuilder = {
             creep.say('🚧 build');
         }
         
-        
+        //console.log(creep.owner.username);
 
        
        

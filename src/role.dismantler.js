@@ -1,4 +1,4 @@
-var modeOffensive = false;
+var modeOffensive = true;
 var destroySpawn =  false;
 var destroyStructure = true;
 
@@ -13,7 +13,7 @@ var roleDismantler = {
             default: /*console.log('Wheres the job?! Now what do I do??');*/ hired = 3;
         }
       // console.log(hired);
-      // creep.moveTo(Game.flags[loc].pos);
+      creep.moveTo(Game.flags[loc].pos);
         if (modeOffensive){
             if (Game.flags[loc] == undefined){
                 console.log('No ' + loc + ' Flag Found?');
@@ -23,7 +23,7 @@ var roleDismantler = {
                 //console.log(creep.room.toString() + ' ' + Game.flags[loc].room.toString());
                 
                 if (creep.room != Game.flags[loc].room) {
-                    creep.say('Moving');
+                    //creep.say('d');
                     creep.moveTo(Game.flags[loc], { visualizePathStyle: { stroke: '#22B91B' } });
                     return;
                 }
@@ -41,8 +41,8 @@ var roleDismantler = {
         }
         if(hired == 0){
             //creep.say('Helping!');
-            let target = Game.getObjectById('59b95958f1460f5dd7e609df');
-            if (target == undefined) return; 
+            let target = Game.getObjectById('59b72ddc626b947ea454bfdb');
+            if (target == null) return; 
             if(creep.dismantle(target) == ERR_NOT_IN_RANGE){
                 creep.moveTo(target, { visualizePathStyle: { stroke: '#22B91B' } });
                 return;
@@ -50,10 +50,10 @@ var roleDismantler = {
             
         }
         else if(hired == 1){
-            creep.say('DESTROY!');
+            //creep.say('DESTROY!');
             if(destroyStructure){
-                // let target = Game.getObjectById('59b40db26149815ad0de3e10'); //Rampart of soonk.
-                if (target == undefined) return;
+                 let targetx= undefined; // Game.getObjectById('59b40db26149815ad0de3e10'); //Rampart of soonk.
+                if (targetx == undefined) return;
                     if(creep.dismantle(target) == ERR_NOT_IN_RANGE){
                         creep.moveTo(target, { visualizePathStyle: { stroke: '#22B91B' } });
                         return;
