@@ -20,7 +20,7 @@ var roleHealer = require('role.healer');
 var bodyPicker = require('bodyPicker');
 var roleMineral = require('role.mineral');
 
-//THE FISH THE FISH THE FISH THE FISH
+
 
 // Any modules that you use that modify the game's prototypes should be require'd
 // before you require the profiler.
@@ -75,6 +75,7 @@ profiler.wrap(function() {
     var remotes = _.filter(Game.creeps, (creep) => creep.memory.role == 'remote');
     var remotes2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'remote2');
     var remotes3 = _.filter(Game.creeps, (creep) => creep.memory.role == 'remote3');
+	var remotes4 = _.filter(Game.creeps, (creep) => creep.memory.role == 'remote4');
     var remoteHaulers = _.filter(Game.creeps, (creep) => creep.memory.role == 'remoteHauler');
     var remoteHaulers2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'remoteHauler2');
     var remoteRepairers = _.filter(Game.creeps, (creep) => creep.memory.role == 'remoteRepairer');
@@ -127,6 +128,8 @@ profiler.wrap(function() {
             console.log('Spawning new harvester: ' + newName);
         }
     }*/
+
+	//****************** ROOM 2 SPAWNING. ROOOM W43S28 *********************************************************/
     var spawn2 = Game.spawns['Spawn2'];
     if(!Game.spawns['Spawn2'].spawning){
         if(Game.rooms['W43S28'].energyAvailable < 500 && harvesters2.length < 1){
@@ -172,7 +175,10 @@ profiler.wrap(function() {
                 var newName = Game.spawns['Spawn2'].createCreep(bodyPicker('dismantler2'), undefined, {role: 'dismantler', loc: 'Attacks', job:'destroy', jobID: 0});
                 console.log('Spawning new Dismantler at Spawn2: ' + newName);
             }
-
+			if((remotes4.length < 1) && (spawn1.canCreateCreep(bodyPicker('remote')) == 0)){
+                var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('remote'), undefined, {role: 'remote4',sourceID:'', canID: 1});
+                console.log('Spawning new remoteHarvester3 from Spawn1: ' + newName);
+            }
             //attack_medium cost 1420.
             if(attackers.length < 0  /*&& (attackers[0] == undefined || attackers[0].memory.ID != 0) */ && (spawn2.canCreateCreep(bodyPicker('attacker_medium')) == 0)){
                 var newName = Game.spawns['Spawn2'].createCreep(bodyPicker('attacker_medium'), undefined, {role:'attacker', ID: 0, goal: 'Rally0' });
@@ -196,12 +202,9 @@ profiler.wrap(function() {
             }
         }
     }
-    //console.log(attackers[0].memory.ID);
 //  console.log(healers[0].ticksToLive);
     var spawn1 = Game.spawns['Spawn1'];
    // console.log(linkHaulers[0]);
-    //console.log((harvesters.length < 1) && (spawn1.canCreateCreep([MOVE,MOVE,MOVE,WORK,WORK,CARRY]) == 0));
-    // console.log(spawn1.canCreateCreep[TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK,ATTACK,ATTACK]);
     if(!Game.spawns['Spawn1'].spawning){
 
         //Auto-Spawning code for each role.
@@ -265,16 +268,17 @@ profiler.wrap(function() {
                 var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('claimer'), undefined, {role:'claimer'});
                 console.log('Spawning new claimer: ' + newName);
             }
+			//Source ID shoudl be in memory. Not hardcoded.
             if((remotes.length < 1) && (spawn1.canCreateCreep(bodyPicker('remote')) == 0)){
-                var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('remote'), undefined, {role: 'remote', canID: 0});
+                var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('remote'), undefined, {role: 'remote', sourceID:'', canID: 0});
                 console.log('Spawning new remoteHarvester: ' + newName);
             }
             if((remotes2.length < 1) && (spawn1.canCreateCreep(bodyPicker('remote')) == 0)){
-                var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('remote'), undefined, {role: 'remote2', canID: 0});
+                var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('remote'), undefined, {role: 'remote2', sourceID:'', canID: 0});
                 console.log('Spawning new remoteHarvester2 from Spawn1: ' + newName);
             }
             if((remotes3.length < 1) && (spawn1.canCreateCreep(bodyPicker('remote')) == 0)){
-                var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('remote'), undefined, {role: 'remote3', canID: 1});
+                var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('remote'), undefined, {role: 'remote3', sourceID:'', canID: 1});
                 console.log('Spawning new remoteHarvester3 from Spawn1: ' + newName);
             }
             if((remoteHaulers.length < 1) && (spawn1.canCreateCreep(bodyPicker('remoteHauler')) == 0)){
