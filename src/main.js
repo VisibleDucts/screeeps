@@ -78,8 +78,10 @@ profiler.wrap(function() {
 	var remotes4 = _.filter(Game.creeps, (creep) => creep.memory.role == 'remote4');
     var remoteHaulers = _.filter(Game.creeps, (creep) => creep.memory.role == 'remoteHauler');
     var remoteHaulers2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'remoteHauler2');
+	var remoteHaulers3 = _.filter(Game.creeps, (creep) => creep.memory.role == 'remoteHauler3');
     var remoteRepairers = _.filter(Game.creeps, (creep) => creep.memory.role == 'remoteRepairer');
     var remoteRepairers2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'remoteRepairer2');
+	var remoteRepairers3 = _.filter(Game.creeps, (creep) => creep.memory.role == 'remoteRepairer3');
     var roleDismantlers = _.filter(Game.creeps, (creep) => creep.memory.role == 'dismantler');
     var attackers = _.filter(Game.creeps, (creep) => creep.memory.role == 'attacker');
     var linkHaulers = _.filter(Game.creeps, (creep) => creep.memory.role == 'linkHauler');
@@ -175,9 +177,17 @@ profiler.wrap(function() {
                 var newName = Game.spawns['Spawn2'].createCreep(bodyPicker('dismantler2'), undefined, {role: 'dismantler', loc: 'Attacks', job:'destroy', jobID: 0});
                 console.log('Spawning new Dismantler at Spawn2: ' + newName);
             }
-			if((remotes4.length < 1) && (spawn1.canCreateCreep(bodyPicker('remote')) == 0)){
-                var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('remote'), undefined, {role: 'remote4',sourceID:'', canID: 1});
-                console.log('Spawning new remoteHarvester3 from Spawn1: ' + newName);
+			if((remotes4.length < 1) && (spawn2.canCreateCreep(bodyPicker('remote')) == 0)){
+                var newName = Game.spawns['Spawn2'].createCreep(bodyPicker('remote'), undefined, {role: 'remote4', sourceID:'5982fc2eb097071b4adbcf83', canID: 0});
+                console.log('Spawning new remoteHarvester3 from Spawn2: ' + newName);
+            }
+			if((remoteRepairers3.length < 1) && (spawn2.canCreateCreep(bodyPicker('remoteRepairer')) == 0)){
+                var newName = Game.spawns['Spawn2'].createCreep(bodyPicker('remoteRepairer'), undefined, {role: 'remoteRepairer3', loc: 'Remote4'});
+                console.log('Spawning new remote Repairer 3 at spawn2: ' + newName);
+            }
+			if((remoteHaulers3.length < 1) && (spawn2.canCreateCreep(bodyPicker('remoteHauler')) == 0)){
+                var newName = Game.spawns['Spawn2'].createCreep(bodyPicker('remoteHauler'), undefined, {role: 'remoteHauler3', hauling: '', loc: 'Remote4', homeID: 'Home2'});
+                console.log('Spawning new remote hauler #3 from spawn2: ' + newName);
             }
             //attack_medium cost 1420.
             if(attackers.length < 0  /*&& (attackers[0] == undefined || attackers[0].memory.ID != 0) */ && (spawn2.canCreateCreep(bodyPicker('attacker_medium')) == 0)){
@@ -196,7 +206,7 @@ profiler.wrap(function() {
             }
 
             //Doesn't work! Well, I think it only works when you want one in two rooms.
-            if((linkHaulers.length < 1) && (linkHaulers[0] == undefined || linkHaulers[0].memory.roomID != 1)  && (spawn2.canCreateCreep(bodyPicker('linkHauler')) == 0)){
+            if((linkHaulers.length < 2) && (linkHaulers[0] == undefined || linkHaulers[0].memory.roomID != 1)  && (spawn2.canCreateCreep(bodyPicker('linkHauler')) == 0)){
                 var newName = Game.spawns['Spawn2'].createCreep(bodyPicker('linkHauler'), undefined, {role:'linkHauler', roomID: 1});
                 console.log('Spawning new Link Hauler at Spawn2: ' + newName);
             }
@@ -270,33 +280,33 @@ profiler.wrap(function() {
             }
 			//Source ID shoudl be in memory. Not hardcoded.
             if((remotes.length < 1) && (spawn1.canCreateCreep(bodyPicker('remote')) == 0)){
-                var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('remote'), undefined, {role: 'remote', sourceID:'', canID: 0});
+                var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('remote'), undefined, {role: 'remote', sourceID:'5982fc2eb097071b4adbcf80', canID: 0});
                 console.log('Spawning new remoteHarvester: ' + newName);
             }
             if((remotes2.length < 1) && (spawn1.canCreateCreep(bodyPicker('remote')) == 0)){
-                var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('remote'), undefined, {role: 'remote2', sourceID:'', canID: 0});
+                var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('remote'), undefined, {role: 'remote2', sourceID:'5982fc17b097071b4adbcccc', canID: 0});
                 console.log('Spawning new remoteHarvester2 from Spawn1: ' + newName);
             }
             if((remotes3.length < 1) && (spawn1.canCreateCreep(bodyPicker('remote')) == 0)){
-                var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('remote'), undefined, {role: 'remote3', sourceID:'', canID: 1});
+                var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('remote'), undefined, {role: 'remote3', sourceID:'5982fc17b097071b4adbcccd', canID: 1});
                 console.log('Spawning new remoteHarvester3 from Spawn1: ' + newName);
             }
             if((remoteHaulers.length < 1) && (spawn1.canCreateCreep(bodyPicker('remoteHauler')) == 0)){
-                var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('remoteHauler'), undefined, {role: 'remoteHauler', hauling: ''});
+                var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('remoteHauler'), undefined, {role: 'remoteHauler', hauling: '', loc: 'Remote', homeID:'Main'});
                 console.log('Spawning new remote hauler from Spawn1: ' + newName);
             }
             if((remoteHaulers2.length < 2) && (spawn1.canCreateCreep(bodyPicker('remoteHauler')) == 0)){
-                var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('remoteHauler'), undefined, {role: 'remoteHauler2', hauling: ''});
+                var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('remoteHauler'), undefined, {role: 'remoteHauler2', hauling: '', loc:'Remote2', homeID:'Main'});
                 console.log('Spawning new remote hauler from Spawn1: ' + newName);
             }
 
             //need to change code to  use memory loc to determine where to go. Not hardcode it.
             if((remoteRepairers.length < 1) && (spawn1.canCreateCreep(bodyPicker('remoteRepairer')) == 0)){
-                var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('remoteRepairer'), undefined, {role: 'remoteRepairer', loc: 'remote'});
+                var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('remoteRepairer'), undefined, {role: 'remoteRepairer', loc: 'Remote'});
                 console.log('Spawning new remoteRepairer: ' + newName);
             }
             if((remoteRepairers2.length < 1) && (spawn1.canCreateCreep(bodyPicker('remoteRepairer')) == 0)){
-                var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('remoteRepairer'), undefined, {role: 'remoteRepairer2', loc: 'remote2'});
+                var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('remoteRepairer'), undefined, {role: 'remoteRepairer2', loc: 'Remote2'});
                 console.log('Spawning new remote Repairer 2 at Spawn1: ' + newName);
             }
 
@@ -397,25 +407,34 @@ profiler.wrap(function() {
             roleClaimer.run(creep);
         }
         if(creep.memory.role == 'remote'){
-            roleRemote.run(creep, Game.flags['Remote'].pos, Game.getObjectById('5982fc2eb097071b4adbcf80'), creep.memory.canID);
+            roleRemote.run(creep, Game.flags['Remote'].pos, creep.memory.sourceID, creep.memory.canID);
         }
         if(creep.memory.role == 'remote2'){
-            roleRemote.run(creep, Game.flags['Remote2'].pos, Game.getObjectById('5982fc17b097071b4adbcccc'), creep.memory.canID);
+            roleRemote.run(creep, Game.flags['Remote2'].pos, creep.memory.sourceID, creep.memory.canID);
         }
         if(creep.memory.role == 'remote3'){
-            roleRemote.run(creep, Game.flags['Remote3'].pos, Game.getObjectById('5982fc17b097071b4adbcccd'), creep.memory.canID);
+            roleRemote.run(creep, Game.flags['Remote3'].pos, creep.memory.sourceID, creep.memory.canID);
+        }
+		if(creep.memory.role == 'remote4'){
+            roleRemote.run(creep, Game.flags['Remote4'].pos, creep.memory.sourceID, creep.memory.canID);
         }
         if(creep.memory.role == 'remoteHauler'){
-            roleRemoteHauler.run(creep, Game.flags['Remote'].pos);
+            roleRemoteHauler.run(creep, creep.memory.loc, creep.memory.homeID);
         }
         if(creep.memory.role == 'remoteHauler2'){
-            roleRemoteHauler.run(creep, 'Remote2');
+            roleRemoteHauler.run(creep, creep.memory.loc, creep.memory.homeID);
+        }
+		if(creep.memory.role == 'remoteHauler3'){
+            roleRemoteHauler.run(creep, creep.memory.loc, creep.memory.homeID);
         }
         if(creep.memory.role == 'remoteRepairer'){
-            roleRemoteRepair.run(creep, Game.flags['Remote'].pos);
+            roleRemoteRepair.run(creep, creep.memory.loc);
         }
         if(creep.memory.role == 'remoteRepairer2'){
-            roleRemoteRepair.run(creep, Game.flags['Remote2'].pos);
+            roleRemoteRepair.run(creep, creep.memory.loc);
+        }
+		if(creep.memory.role == 'remoteRepairer3'){
+            roleRemoteRepair.run(creep, creep.memory.loc);
         }
         if(creep.memory.role == 'defender'){
             roleDefender.run(creep, creep.memory.job, creep.memory.loc);
