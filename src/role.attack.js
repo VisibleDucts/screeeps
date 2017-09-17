@@ -2,7 +2,7 @@ var modeOffensive = true;
 var attackCreep = true;;
 var attackStructure = false;
 
-var roleAttack = {    
+var roleAttack = {
     run: function(creep, goal){
         // creep.moveTo(Game.flags[goal], { visualizePathStyle: { stroke: '#22B91B' } });
         if (modeOffensive){
@@ -18,17 +18,25 @@ var roleAttack = {
             }
         }
         if (attackCreep){
-            let target = creep.room.find(FIND_HOSTILE_CREEPS)[0];
+            let target = creep.room.find(FIND_HOSTILE_CREEPS, {filter: (p) => {return (p.owner.username != 'Shylo132')
+                    && (p.owner.username != 'mnuck')
+                    && (p.owner.username != 'LordPong')
+                    && (p.owner.username != 'complexQuanta')
+                    && (p.owner.username != 'Augl')
+                    && (p.owner.username != 'mightyleguan')
+                    && (p.owner.username != 'pragmascript');
+                }
+            });
             creep.say('HUG ME');
             if (target == undefined) return;
-            if (creep.attack(target) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(target, { visualizePathStyle: { stroke: '#22B91B' } });
+            if (creep.attack(target[0]) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(target[0], { visualizePathStyle: { stroke: '#22B91B' } });
                 return;
             }
         }
-        
+
         if(attackStructure){
-            
+
             var structure = creep.pos.findClosestByRange(FIND_HOSTILE_STRUCTURES);
             if (structure == undefined) return;
             if(creep.attack(structure) == ERR_NOT_IN_RANGE){

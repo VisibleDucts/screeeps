@@ -2,13 +2,13 @@ var modeOffensive = true;
 var destroySpawn =  false;
 var destroyStructure = true;
 
-var roleDismantler = {    
+var roleDismantler = {
     run: function(creep, loc, job){
         // Game.creeps.Parker.moveTo(Game.spawns['Spawn1']);
         // Game.spawns['Spawn1'].recycleCreep(creep);
         var hired;
         switch(job.toString()){
-            case 'helper': hired = 0; break; 
+            case 'helper': hired = 0; break;
             case 'destroy': hired = 1; break;
             default: /*console.log('Wheres the job?! Now what do I do??');*/ hired = 3;
         }
@@ -21,7 +21,7 @@ var roleDismantler = {
             }
             else{
                 //console.log(creep.room.toString() + ' ' + Game.flags[loc].room.toString());
-                
+
                 if (creep.room != Game.flags[loc].room) {
                     //creep.say('d');
                     creep.moveTo(Game.flags[loc], { visualizePathStyle: { stroke: '#22B91B' } });
@@ -30,24 +30,24 @@ var roleDismantler = {
             }
         }
         /*if(creep.carry.energy > 0){
-                
+
              if(creep.transfer(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
                     creep.moveTo(creep.room.storage);
                 }
             }*/
-        
+
         if(hired == 3){
             return;
         }
         if(hired == 0){
             //creep.say('Helping!');
             let target = Game.getObjectById('59b72ddc626b947ea454bfdb');
-            if (target == null) return; 
+            if (target == null) return;
             if(creep.dismantle(target) == ERR_NOT_IN_RANGE){
                 creep.moveTo(target, { visualizePathStyle: { stroke: '#22B91B' } });
                 return;
             }
-            
+
         }
         else if(hired == 1){
             //creep.say('DESTROY!');
@@ -59,7 +59,7 @@ var roleDismantler = {
                         return;
                 }
             }
-            
+
             if (destroySpawn){
                 let target = creep.room.find(FIND_HOSTILE_SPAWNS)[0];
                 if (target == undefined) return;
@@ -69,8 +69,8 @@ var roleDismantler = {
                 }
             }
         }
-        
-        
+
+
     }
 };
 module.exports = roleDismantler;

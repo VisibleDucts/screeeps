@@ -57,6 +57,7 @@ profiler.wrap(function() {
     var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
     var harvesters2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester2');
     var defenders = _.filter(Game.creeps, (creep) => creep.memory.role == 'defender');
+	var defenders2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'defender2');
     var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
     var builders2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder2');
     var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
@@ -232,6 +233,10 @@ profiler.wrap(function() {
                 if(defenders.length < 1 && (haulers.length > 0) && (sharvester.length > 0) && (harvesters.length > 0) && (spawn1.canCreateCreep(bodyPicker('guard'))) == 0){
                     var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('guard'), undefined, {role:'defender', job:'guard', home:'Spawn1', loc: 'Claim'});
                     console.log('Spawning new Defender at Spawn1: ' + newName);
+                }
+				if(defenders2.length < 1 && (haulers.length > 0) && (sharvester.length > 0) && (harvesters.length > 0) && (spawn1.canCreateCreep(bodyPicker('guard'))) == 0){
+                    var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('guard'), undefined, {role:'defender2', job:'guard', home:'Spawn1', loc: 'Remote_Room'});
+                    console.log('Spawning new Defender2 at Spawn1: ' + newName);
                 }
 
                 if((harvesters.length < 1) && (spawn1.canCreateCreep(bodyPicker('harvester')) == 0)){
@@ -437,6 +442,9 @@ profiler.wrap(function() {
             roleRemoteRepair.run(creep, creep.memory.loc);
         }
         if(creep.memory.role == 'defender'){
+            roleDefender.run(creep, creep.memory.job, creep.memory.loc);
+        }
+		if(creep.memory.role == 'defender2'){
             roleDefender.run(creep, creep.memory.job, creep.memory.loc);
         }
         if(creep.memory.role == 'attacker'){
