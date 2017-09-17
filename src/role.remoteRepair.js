@@ -5,7 +5,7 @@ var roleRemoteRepair = {
         //const repairTargets = creep.room.find(FIND_STRUCTURES, {filter: (structure) => { return(structure.structureType == STRUCTURE_WALL) && structure.hits < structure.hitsMax;}});
 
          //Game.creeps.Nathaniel.moveTo(13, 37)
-        
+
         var can = creep.room.find(FIND_STRUCTURES, {filter: (structure) => {return (structure.structureType == STRUCTURE_CONTAINER);}});
         const repairTargets = creep.room.find(FIND_STRUCTURES, {filter: function(structure){
                     return ((structure.structureType == STRUCTURE_CONTAINER && structure.hits < 200000) || (structure.structureType == STRUCTURE_ROAD && structure.hits < 3000))
@@ -13,6 +13,19 @@ var roleRemoteRepair = {
         //const repairCans = creep.room.find(FIND_STRUCTURES, {filter: function(s){return s.structureType == STRUCTURE_CONTAINER && s.hits < 200000;}});
 
         //var fixit;
+
+        if (Game.flags[loc] == undefined){
+            console.log('No ' + loc + ' Flag Found?');
+            return;
+        }
+        else{
+            if (creep.room != Game.flags[loc].room) {
+                creep.moveTo(Game.flags[loc], { visualizePathStyle: { stroke: '#22B91B' } });
+                return;
+            }
+        }
+
+
         if(creep.memory.building && creep.carry.energy == 0) {
             creep.memory.building = false;
             creep.say('🔄 harvest');
@@ -21,8 +34,11 @@ var roleRemoteRepair = {
             creep.memory.building = true;
             creep.say('🚧 build');
         }
-          
-        if(loc == Game.flags['Remote'].pos){
+
+
+
+
+    /*    if(loc == Game.flags['Remote'].pos){
             if (creep.room != Game.flags["Remote"].room){
                 creep.moveTo(Game.flags["Remote"]);
                 return;
@@ -31,18 +47,18 @@ var roleRemoteRepair = {
         else if(loc == Game.flags['Remote2'].pos){
             if (creep.room != Game.flags["Remote2"].room){
                 creep.moveTo(Game.flags["Remote2"]);
-                return; 
+                return;
             }
-        }
-        
-        if((creep.room == Game.flags["Remote"].room || creep.room == Game.flags['Remote2'].room) && creep.carry.energy < creep.carryCapacity && !creep.memory.building){
+        } */
+
+        if((creep.room == Game.flags[loc].room) && creep.carry.energy < creep.carryCapacity && !creep.memory.building){
             const targetx = creep.room.find(FIND_DROPPED_RESOURCES, { filter: (r) => { return r.resourceType == RESOURCE_ENERGY; }});
            // creep.say('hip');
             if(targetx.length > 0) {
                 if(creep.pickup(targetx[0]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targetx[0], {reusePath: 50});
                     }
-            
+
             }
             else if(can.length > 0 && can[0].store[RESOURCE_ENERGY] >= creep.carryCapacity){
                 if(creep.withdraw(can[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
@@ -52,10 +68,10 @@ var roleRemoteRepair = {
             if(can.length > 1 && can[1].store[RESOURCE_ENERGY] >= creep.carryCapacity && creep.withdraw(can[1], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
                 creep.moveTo(can[1], {reusePath: 10}, {visualizePathStyle: {stroke: "#00aaFF"}});
             }
-                
-            
+
+
         }
-        
+
 
         if(creep.memory.building) {
             var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
@@ -80,7 +96,7 @@ var roleRemoteRepair = {
                     if(creep.repair(repairTargets[0]) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(repairTargets[0]);
                         return;
-                        
+
                     }
                 }
                /* if(repairCans){
@@ -106,5 +122,3 @@ var roleRemoteRepair = {
 };
 
 module.exports = roleRemoteRepair;
-
-

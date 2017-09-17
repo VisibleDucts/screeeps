@@ -1,11 +1,20 @@
 var roleRemote = {
 
-    run: function(creep, loc, source, canID) {
+    run: function(creep, loc, sourceID, canID) {
 
-        var can = creep.room.find(FIND_STRUCTURES, { filter: function(structure){ return (structure.structureType == STRUCTURE_CONTAINER)}});
+        var can = creep.room.find(FIND_STRUCTURES, { filter: function(s){ return (s.structureType == STRUCTURE_CONTAINER)}});
+        var source = Game.getObjectById(sourceID);
 
+        if(creep.room.controller.sign == undefined){
+             creep.say('hi');
+             if(creep.room.controller) {
+                 if (creep.signController(creep.room.controller, "[Former Ecorp Territory] f**k society") == ERR_NOT_IN_RANGE) {
+                     creep.moveTo(creep.room.controller);
+                 }
+             }
+         }
         //console.log(canID);
-        if(creep.pos != loc.toString()){
+        else if(creep.pos != loc.toString()){
             creep.moveTo(loc, {visualizePathStyle: {stroke: '#FFFFFF'}});
             return;
         }
