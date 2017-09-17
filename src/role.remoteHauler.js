@@ -55,13 +55,16 @@ var roleRemoteHauler = {
             if(creep.memory.hauling){
 
                 if(Game.flags[homeID] == undefined) return;
-                    if(creep.pos.toString() != Game.flags[homeID].pos.toString()){
-                        if(creep.pos != Game.flags[homeID].pos){
-                            creep.moveTo(Game.flags[homeID], {visualizePathStyle: {stroke:'#F0F0F0'}});
-                            return;
-                        }
-                    }
-                if(creep.pos.toString() === Game.flags[homeID].pos.toString() && creep.carry.energy == creep.carryCapacity){
+                //Experiment to  see if this stops it from having to move all the way to the flag.
+                if(creep.room.toString() != Game.flags[homeID].room.toString()){
+                    //if(creep.pos != Game.flags[homeID].pos){
+                        creep.moveTo(Game.flags[homeID], {visualizePathStyle: {stroke:'#F0F0F0'}});
+                        return;
+                //    }
+                }
+
+
+                if(/*creep.pos.toString() == Game.flags[homeID].pos.toString() && */creep.carry.energy == creep.carryCapacity){
                     var storages = creep.room.storage;
                     var links = creep.room.find(FIND_STRUCTURES, {
                         filter: (structure) => {
@@ -77,13 +80,16 @@ var roleRemoteHauler = {
                         }
                     } */
 
-                    if(creep.pos != storages.pos){
-                        creep.moveTo(storages,{reusePath: 10}, {visualizePathStyle: {stroke: '#ffffff'}});
+                    //if(creep.pos != storages.pos){
+                    //    creep.moveTo(storages,{reusePath: 10}, {visualizePathStyle: {stroke: '#ffffff'}});
                             //creep.say('hid');
                         for(const resourceType in creep.carry) {
-                            creep.transfer(storages, resourceType);
+                            if(creep.transfer(storages, resourceType) == ERR_NOT_IN_RANGE){
+                                creep.moveTo(storages);
+                            }
                         }
-                    }
+                    //}
+
 
                     if(creep.carry.energy == 0){
                         creep.memory.home = false;

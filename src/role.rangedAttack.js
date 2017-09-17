@@ -1,7 +1,7 @@
 var modeOffensive = true;
-var attackCreep = true;;
+var attackCreep = true;
 
-var roleRangedAttack = {    
+var roleRangedAttack = {
     run: function(creep, goal){
         // creep.moveTo(Game.flags[goal], { visualizePathStyle: { stroke: '#22B91B' } });
         if (modeOffensive){
@@ -17,9 +17,6 @@ var roleRangedAttack = {
             }
         }
         if (attackCreep){
-          //  let targets = creep.room.find(FIND_HOSTILE_CREEPS)[0];
-          //  creep.say('HUG ME');
-            
              //exmaple from api
             const targets = creep.pos.findInRange(FIND_HOSTILE_CREEPS, 3);
             if (targets == undefined) return;
@@ -28,9 +25,7 @@ var roleRangedAttack = {
             }
 
         }
-        
+
     }
 };
 module.exports = roleRangedAttack;
- 
-
