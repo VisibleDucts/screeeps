@@ -19,6 +19,7 @@ var roleLinkHauler = require('role.linkHauler');
 var roleHealer = require('role.healer');
 var bodyPicker = require('bodyPicker');
 var roleMineral = require('role.mineral');
+var roleRangedAttack = require('role.rangedAttack');
 
 
 
@@ -70,6 +71,7 @@ profiler.wrap(function() {
     var repairers2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'repair2');
     var haulers = _.filter(Game.creeps, (creep) => creep.memory.role == 'hauler');
     var haulers2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'hauler2');
+	var haulers3 = _.filter(Game.creeps, (creep) => creep.memory.role == 'hauler3');
     var towerHaulers = _.filter(Game.creeps, (creep) => creep.memory.role == 'towerHauler');
     var towerHaulers2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'towerHauler2');
     var claimers = _.filter(Game.creeps, (creep) => creep.memory.role == 'claimer');
@@ -88,6 +90,7 @@ profiler.wrap(function() {
     var linkHaulers = _.filter(Game.creeps, (creep) => creep.memory.role == 'linkHauler');
     var healers = _.filter(Game.creeps, (creep) => creep.memory.role == 'healer');
     var minerals =_.filter(Game.creeps, (creep) => creep.memory.role == 'mineral');
+	var rangedAttackers =_.filter(Game.creeps, (creep) => creep.memory.role == 'rangedAttacker');
 
         if ((Game.time % 20) === 0){
 
@@ -146,11 +149,11 @@ profiler.wrap(function() {
                 var newName = Game.spawns['Spawn2'].createCreep([MOVE,MOVE,MOVE,WORK,WORK,WORK,CARRY], undefined, {role:'harvester2'});
                 console.log('Spawning new harvester in Spwan2: ' + newName);
             }
-            if((builders2.length < 1) && (harvesters2.length > 0) && (spawn2.canCreateCreep([MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY]) == 0)){
+            if((builders2.length < 2) && (harvesters2.length > 0) && (spawn2.canCreateCreep([MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY]) == 0)){
                 var newName = Game.spawns['Spawn2'].createCreep([MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY], undefined, {role:'builder2'});
                 console.log('Spawning new builder in Spawn2: ' + newName);
             }
-            if((upgraders2.length < 3) && (harvesters2.length > 0) && (spawn2.canCreateCreep(bodyPicker('upgrader_small')) == 0)){
+            if((upgraders2.length < 2) && (harvesters2.length > 0) && (spawn2.canCreateCreep(bodyPicker('upgrader_small')) == 0)){
                 var newName = Game.spawns['Spawn2'].createCreep(bodyPicker('upgrader_small'), undefined, {role:'upgrader2'});
                 console.log('Spawning new upgrader in Spawn2: ' + newName);
             }
@@ -163,7 +166,7 @@ profiler.wrap(function() {
                 console.log('Spawning new Tower Hauler in Spawn2: ' + newName);
             }
             if((haulers2.length < 1) && (spawn2.canCreateCreep([MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY]) == 0)){
-                var newName = Game.spawns['Spawn2'].createCreep([MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY], undefined, {role:'hauler2'});
+                var newName = Game.spawns['Spawn2'].createCreep([MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY], undefined, {role:'hauler2', job:'normal'});
                 console.log('Spawning new hauler in Spawn2: ' + newName);
             }
             if(sharvesterR2.length < 1 && (haulers2.length > 0) && (spawn2.canCreateCreep([MOVE,WORK,WORK,WORK,WORK, WORK]) == 0)){
@@ -195,7 +198,10 @@ profiler.wrap(function() {
                 var newName = Game.spawns['Spawn2'].createCreep(bodyPicker('attacker_medium'), undefined, {role:'attacker', ID: 0, goal: 'Rally0' });
                 console.log('Spawning new attacker at Spawn2: ' + newName);
             }
-
+			if(rangedAttackers.length < 0 && spawn2.canCreateCreep(bodyPicker('rangedAttack')) == 0){
+				var newName = Game.spawns['Spawn2'].createCreep(bodyPicker('rangedAttack'), undefined, {role:'rangedAttacker', goal: 'Rally0' });
+                console.log('Spawning new ranged attacker at Spawn2: ' + newName);
+			}
             if(attackers.length < 0 && (attackers[0] == undefined || attackers[0].memory.ID != 1) && (spawn2.canCreateCreep(bodyPicker('attacker_small')) == 0)){
                  var newName = Game.spawns['Spawn2'].createCreep(bodyPicker('attacker_small'), undefined, {role:'attacker', ID: 1,  goal: 'AttackThere'});
                 console.log('Spawning new attacker at Spawn2: ' + newName);
@@ -245,9 +251,10 @@ profiler.wrap(function() {
                 }
 
                 if((((haulers.length < 1) || haulers[0].ticksToLive < 160) && haulers.length < 2) && (spawn1.canCreateCreep(bodyPicker('hauler')) == 0)){
-                    var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('hauler'), undefined, {role:'hauler'});
+                    var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('hauler'), undefined, {role:'hauler', job: 'normal'});
                     console.log('Spawning new hauler in Spawn1: ' + newName);
                 }
+
                 if(sharvester.length < 1 && (haulers.length > 0) && (spawn1.canCreateCreep(bodyPicker('sharvester')) == 0)){
                     var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('sharvester'), undefined, {role:'sharvester', flag:'Harvest0'});
                     console.log('Spawning new sharvester in Spawn1: ' + newName);
@@ -264,9 +271,12 @@ profiler.wrap(function() {
                 var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('upgrader'), undefined, {role:'upgrader'});
                 console.log('Spawning new upgrader at Spawn1: ' + newName);
             }
+			if((haulers3.length < 0)  && (spawn1.canCreateCreep(bodyPicker('hauler_min')) == 0)){
+				var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('hauler_min'), undefined, {role:'hauler3', job: 'terminal'});
+				console.log('Spawning new Terminal hauler in Spawn1: ' + newName);
+			}
 
-
-            if(builders.length < 1 && upgraders.length > 0 && (spawn1.canCreateCreep(bodyPicker('builder')) == 0)){
+            if(builders.length < 2 && upgraders.length > 0 && (spawn1.canCreateCreep(bodyPicker('builder')) == 0)){
                 var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('builder'), undefined, {role:'builder'});
                 console.log('Spawning new builder at Spawn1: ' + newName);
             }
@@ -326,15 +336,15 @@ profiler.wrap(function() {
                 var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('helpful_dismantler'), undefined, {role: 'dismantler', loc:'Claim', job:'helper', jobID: 1 });
                 console.log('Spawning new Dismantler at Spawn1: ' + newName);
             }
-            if((minerals.length < 0) && (spawn1.canCreateCreep(bodyPicker('mineral')) == 0)){
+            if((minerals.length < 1) && (spawn1.canCreateCreep(bodyPicker('mineral')) == 0)){
                 var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('mineral'), undefined, {role: 'mineral'});
                 console.log('Spawning new Mineral Extractor at Spawn1: ' + newName);
             }
 
 
             if(army){
-                if((healers.length < 4) && (spawn1.canCreateCreep(bodyPicker('healer')) == 0)){
-                    var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('healer'), undefined, {role: 'healer'});
+                if((healers.length < 4) && (spawn1.canCreateCreep(bodyPicker('healer_big')) == 0)){
+                    var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('healer_big'), undefined, {role: 'healer'});
                     console.log('Spawning new Healer at Spawn1: ' + newName);
                 }
 
@@ -396,7 +406,10 @@ profiler.wrap(function() {
         if(creep.memory.role == 'dismantler'){
             roleDismantler.run(creep, creep.memory.loc, creep.memory.job);
         }
-        if(creep.memory.role == 'hauler'){
+        if(creep.memory.role == 'hauler3'){
+            roleHauler.run(creep, linkA);
+        }
+		if(creep.memory.role == 'hauler'){
             roleHauler.run(creep, linkA);
         }
          if(creep.memory.role == 'hauler2'){
@@ -449,6 +462,9 @@ profiler.wrap(function() {
         }
         if(creep.memory.role == 'attacker'){
             roleAttack.run(creep, creep.memory.goal);
+        }
+		if(creep.memory.role == 'rangedAttacker'){
+            roleRangedAttack.run(creep, creep.memory.goal);
         }
         if(creep.memory.role == 'linkHauler'){
             roleLinkHauler.run(creep, creep.memory.roomID);

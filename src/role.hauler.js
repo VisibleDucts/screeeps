@@ -1,6 +1,6 @@
 var roleHauler = {
 
-    run: function(creep, links){
+    run: function(creep, links){  //need to add job
 
        /// Game.creeps.Cole.moveTo(Game.flags['Main'].pos);
         var storages = creep.room.storage;
