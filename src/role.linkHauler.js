@@ -1,7 +1,7 @@
-var roleLinkHauler = {
-    
+var linkHauler = {
+
     run: function(creep, roomID){
-            
+
     /*        var linkA = Game.rooms['W43S27'].find(FIND_STRUCTURES, {
         filter: (structure) => {
             return (structure.structureType == STRUCTURE_LINK);}
@@ -12,13 +12,13 @@ var roleLinkHauler = {
     }); */
 
         var links = creep.room.find(FIND_STRUCTURES, { filter: (s) => {return s.structureType == STRUCTURE_LINK;}});
-        
-      
+
+
          if(creep.memory.hauling && creep.carry.energy == 0) {
             creep.memory.hauling = false;
             creep.say('🔄 Retrieving');
         }
-               
+
         if(!creep.memory.hauling && creep.carry.energy == creep.carryCapacity) {
             creep.memory.hauling = true;
             creep.say('Hauling');
@@ -40,7 +40,7 @@ var roleLinkHauler = {
                 }
             }
         }
-        
+
         if(creep.memory.hauling){
             if(links.length > 0){
                 if(creep.transfer(links[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
@@ -51,4 +51,4 @@ var roleLinkHauler = {
     }
 };
 
-module.exports = roleLinkHauler;
+module.exports = linkHauler;

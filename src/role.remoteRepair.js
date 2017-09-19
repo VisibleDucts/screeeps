@@ -1,4 +1,4 @@
-var roleRemoteRepair = {
+var remoteRepair = {
 
     run: function(creep, loc){
 
@@ -121,4 +121,4 @@ var roleRemoteRepair = {
 
 };
 
-module.exports = roleRemoteRepair;
+module.exports = remoteRepair;

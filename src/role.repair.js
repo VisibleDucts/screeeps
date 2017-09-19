@@ -1,12 +1,12 @@
-var roleRepair = {
+var repairer = {
 
     run: function(creep){
         // Game.creeps.Mason.moveTo(new RoomPosition(25, 20, 'W43S27'));
 
-        
+
         const targetx = creep.room.find(FIND_DROPPED_RESOURCES, { filter: (r) => { return r.resourceType == RESOURCE_ENERGY; }});
 
-        
+
         if(creep.memory.building && creep.carry.energy == 0) {
             creep.memory.building = false;
             creep.say('🔄 harvest');
@@ -19,9 +19,9 @@ var roleRepair = {
         if(creep.memory.building) {
             const repairTargets = creep.room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
-                    return((structure.structureType == STRUCTURE_WALL && structure.hits < structure.hitsMax) || (structure.structureType == STRUCTURE_RAMPART && structure.hits < structure.hitsMax) 
+                    return((structure.structureType == STRUCTURE_WALL && structure.hits < structure.hitsMax) || (structure.structureType == STRUCTURE_RAMPART && structure.hits < structure.hitsMax)
                     || (structure.structureType == STRUCTURE_CONTAINER) && structure.hits < structure.hitsMax) || (structure.structureType == STRUCTURE_ROAD && structure.hits < 3000)  ;}
-                
+
             });
             repairTargets.sort((a,b) => a.hits - b.hits);
             //console.log(repairTargets[0]);
@@ -32,13 +32,13 @@ var roleRepair = {
             }
         }
         else {
-            
+
                 var sources = creep.room.find(FIND_SOURCES_ACTIVE);
                 if(targetx.length > 0) {
                     if(creep.pickup(targetx[0]) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(targetx[0]);
                     }
-                    
+
                 }
                 else if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
@@ -51,10 +51,10 @@ var roleRepair = {
                             creep.transfer(storages, resourceType);
                         }
                     } */
-                
+
         }
     }
 
 };
 
-module.exports = roleRepair;
+module.exports = repairer;

@@ -1,6 +1,6 @@
 var attackCreep = true;
 
-var roleDefender = {
+var defender = {
 
     run: function(creep, job, loc){
        //Game.creeps.Nathan.moveTo(Game.flags['Flag1']);
@@ -15,13 +15,15 @@ var roleDefender = {
             });
 
             if(job == 'guard'){
+                const dropped = creep.room.find(FIND_DROPPED_RESOURCES);
+                const can = creep.room.find(FIND_STRUCTURES, {filter: (s) => { return s.structureType == STRUCTURE_CONTAINER; }});
                 if (Game.flags[loc] == undefined){
                     console.log('No ' + loc + ' Flag Found?');
                     return;
                 }
                 else{
 
-                    if (creep.room.toString()  != Game.flags[loc].room.toString()) {
+                    if (creep.room  != Game.flags[loc].room) {
                         creep.moveTo(Game.flags[loc], { visualizePathStyle: { stroke: '#22B91B' } });
                         return;
                     }
@@ -45,6 +47,21 @@ var roleDefender = {
                     return;
                 }
             }
+            if(dropped.length) {
+                if(creep.pickup(dropped[0]) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(dropped[0], {visualizePathStyle: {stroke: '#ffaa00'}});
+                    return;
+                }
+            }
+
+            total = _.sum(creep.carry);
+            if(total > 0){
+                for(const resourceType in creep.carry) {
+                    if(creep.transfer(can[0], resourceType) == ERR_NOT_IN_RANGE){
+                        creep.moveTo(can[0]);
+                    }
+                }
+            }
         }
         else{
             if(creep.attack(closestHostile) == ERR_NOT_IN_RANGE) {
@@ -55,4 +72,4 @@ var roleDefender = {
         }
     }
 };
-module.exports = roleDefender;
+module.exports = defender;

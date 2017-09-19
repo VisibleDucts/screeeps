@@ -1,4 +1,4 @@
-var roleBuilder = {
+var builder = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
@@ -9,8 +9,8 @@ var roleBuilder = {
         });
         const storages = creep.room.storage;
         const targetx = creep.room.find(FIND_DROPPED_RESOURCES, { filter: (r) => { return r.resourceType == RESOURCE_ENERGY; }});
-       
-        
+
+
         if(creep.memory.building && creep.carry.energy == 0) {
             creep.memory.building = false;
             creep.say('🔄 harvest');
@@ -19,11 +19,11 @@ var roleBuilder = {
             creep.memory.building = true;
             creep.say('🚧 build');
         }
-        
+
         //console.log(creep.owner.username);
 
-       
-       
+
+
 
         if(creep.memory.building) {
             var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
@@ -50,7 +50,7 @@ var roleBuilder = {
                 if(creep.pickup(targetx[0]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targetx[0]);
                 }
-                    
+
             }
             if(storages && storages.store[RESOURCE_ENERGY] > 0){
                 if(creep.withdraw(storages, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
@@ -61,10 +61,10 @@ var roleBuilder = {
                 creep.moveTo(sourcesOG[0], {visualizePathStyle: {stroke: '#ffaa00'}})
             }
         }
-    
-        
+
+
     }
 
 };
 
-module.exports = roleBuilder;
+module.exports = builder;

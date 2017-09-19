@@ -1,9 +1,9 @@
-var roleTowerHauler = {
+var towerHauler = {
 
         /** @param {Creep} creep **/
         run: function(creep) {
-           
-            
+
+
             //const targetx = creep.room.find(FIND_DROPPED_RESOURCES);
             const total = _.sum(creep.carry);
             if(total < creep.carryCapacity) {
@@ -13,10 +13,10 @@ var roleTowerHauler = {
                             creep.moveTo(creep.room.storage, {visualizePathStyle: {stroke:"red"}});
                         }
                     }
-                } 
-                
+                }
+
                 else{ */
-                    
+
                     var sources = creep.room.find(FIND_SOURCES_ACTIVE);
                    /* if(targetx.length > 0) {
                         if(creep.pickup(targetx[0]) == ERR_NOT_IN_RANGE) {
@@ -38,7 +38,7 @@ var roleTowerHauler = {
                         return(structure.structureType == STRUCTURE_TOWER)
                     }
                 });
-                
+
                 //if(tower[0].energy >= 600 && tower[1].energy < tower[1].energyCapacity){
                 if(tower.length > 0){
                     if(tower[0].energy < tower[0].energyCapacity){
@@ -50,20 +50,20 @@ var roleTowerHauler = {
                         if(creep.transfer(tower[1], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
                             creep.moveTo(tower[1], {visualizePathStyle: {stroke: '#000000'}});
                         }
-                    } 
+                    }
                 }
-                
+
               /*  if(creep.room.storage){
                     for(const resourceType in creep.carry) {
                         if(creep.transfer(creep.room.storage, resourceType) == ERR_NOT_IN_RANGE){
                             creep.moveTo(creep.room.storage);
-                            
+
                         }
                     }
                 } */
-                
+
             }
         }
 };
 
-    module.exports = roleTowerHauler;
+    module.exports = towerHauler;

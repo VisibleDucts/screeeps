@@ -2,7 +2,7 @@ var modeOffensive = true;
 var healCreep = true;
 
 
-var roleHealer = {
+var healer = {
 
     run: function(creep){
        // var flag1 = "Attacks";
@@ -43,4 +43,4 @@ var roleHealer = {
 
     }
 };
-module.exports = roleHealer;
+module.exports = healer;

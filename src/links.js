@@ -1,7 +1,7 @@
-var roleLinks = {
-  
+var links = {
+
   run: function(links){
-    
+
     //console.log(links);
     if(links.length > 0){
        //console.log(links[0]);
@@ -13,7 +13,7 @@ var roleLinks = {
           link1.transferEnergy(link2);
       } */
   }
-    
+
 };
 
-module.exports = roleLinks;
+module.exports = links;

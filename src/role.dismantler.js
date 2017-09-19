@@ -2,7 +2,7 @@ var modeOffensive = true;
 var destroySpawn =  false;
 var destroyStructure = true;
 
-var roleDismantler = {
+var dismantler = {
     run: function(creep, loc, job){
         // Game.creeps.Parker.moveTo(Game.spawns['Spawn1']);
         // Game.spawns['Spawn1'].recycleCreep(creep);
@@ -73,4 +73,4 @@ var roleDismantler = {
 
     }
 };
-module.exports = roleDismantler;
+module.exports = dismantler;

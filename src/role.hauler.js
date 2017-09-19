@@ -1,4 +1,4 @@
-var roleHauler = {
+var hauler = {
 
     run: function(creep, links){  //need to add job
 
@@ -63,7 +63,7 @@ var roleHauler = {
                     creep.moveTo(can[0], {reusePath: 10}, {visualizePathStyle: {stroke: "#00aaFF"}});
                     return;
                 }
-                else if(can.length > 1  && (can[1].store[RESOURCE_ENERGY] >= creep.carryCapacity) && creep.withdraw(can[1], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
+                if(can.length > 1  && (can[1].store[RESOURCE_ENERGY] >= creep.carryCapacity) && creep.withdraw(can[1], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
                     creep.moveTo(can[1], {reusePath: 10}, {visualizePathStyle: {stroke: "#00aaFF"}});
                     return;
                 }
@@ -120,4 +120,4 @@ var roleHauler = {
     }
 };
 
-module.exports = roleHauler;
+module.exports = hauler;

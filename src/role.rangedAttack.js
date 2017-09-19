@@ -2,7 +2,7 @@ var modeOffensive = true;
 var attackCreep = true;
 var healCreep = true;
 
-var roleRangedAttack = {
+var rangedAttacker = {
     run: function(creep, goal){
         const hurtCreep = creep.pos.findClosestByRange(FIND_MY_CREEPS, { filter: function(c) { return c.hits < c.hitsMax; }});
         // creep.moveTo(Game.flags[goal], { visualizePathStyle: { stroke: '#22B91B' } });
@@ -41,4 +41,4 @@ var roleRangedAttack = {
 
     }
 };
-module.exports = roleRangedAttack;
+module.exports = rangedAttacker;

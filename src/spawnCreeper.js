@@ -14,11 +14,24 @@ var spawnCreep = {
 }
 };
 
+if(defenders.length < 0 && (haulers.length > 0) && (sharvester.length > 0) && (harvesters.length > 0) && (upgraders.length > 0) && (spawn1.canCreateCreep(bodyPicker('defender'))) == 0){
+    var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('defender'), undefined, {role:'defender', job:'defender', home:'Spawn1'});
+    console.log('Spawning new Defender at Spawn1: ' + newName);
+}
+
+var requirements = ((haulers.length > 0) && (sharvester.length > 0) && (harvesters.length > 0) && (upgraders.length > 0) && (spawn.canCreateCreep(bodyPicker(role)) == 0));
+
+
+if(role_amount < x && requirements){
+    var newName = Game.spawns[spawn].createCreep(bodyPicker(role), `${role}-${Game.time}`, {role:role, job: job, goal: goal, home: home});
+    console.log('Spawning new ' + role + ' at ' + spawn + ': ' + newName);
+}
+
 module.exports = spawnCreep;
 
-/*
+
 function spawnCreep(SA, role) {
-    for(Spawn of Spawns) {
+    for(name in Game.spawns) {
         if(Spawn.memory.spawned != true) {
             if(Spawn.canCreateCreep(SA) == OK) {
                 var newName = Spawn.createCreep(SA, `${role}-${Game.time}`, {role: role, born: Spawn.room.name});
@@ -29,6 +42,14 @@ function spawnCreep(SA, role) {
         }
     }
 }
+
+for(const i in Game.spawns) {
+    Game.spawns[i].createCreep(body);
+}
+
+
+
+
 function spawnController() {
     Game.spawns.length;
     for (const i in Game.spawns) {
@@ -46,35 +67,3 @@ while (Game.flags[s + "Mine" + x] != undefined) {
       if (_.filter(Game.creeps, (creep) => creep.memory.role == s + "M" + x).length < 1) {
         creepDemand(currentSpawn.name, s, bodyPicker(currentSpawn, "Miner"), "worker", s + "M" + x, "Miner", x);
         return;
-        
-        
-          if(cap >= 2300) {
-                body = [WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE]
-            }
-            else if(cap >= 1450){
-                body = [WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE]
-            }
-            else if(cap >= 1200) {
-                body = [WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE]
-            }
-            else if(cap >= 1000) {
-                body = [WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE]
-            }
-            else if(cap >= 800) {
-                body = [WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]
-            }
-            else if(cap >= 600) {
-                body = [WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE]
-            }
-            else if(cap >= 500) {
-                body = [WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE]
-            }
-            else if(cap >= 400) {
-                body = [WORK,WORK,CARRY,CARRY,MOVE,MOVE]
-            }
-            
-            */
-        
-        
-        
-        

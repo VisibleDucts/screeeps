@@ -1,8 +1,8 @@
-var roleUpgrader = {
+var upgrader = {
 
         /** @param {Creep} creep **/
         run: function(creep) {
-            
+
            // Game.creeps.Dylan.moveTo(new RoomPosition(25, 20, 'W43S27'));
             //Game.creeps.Emma.moveTo(new RoomPosition(25, 20, 'W43S27'));
             var can = creep.room.find(FIND_STRUCTURES, { filter: function(structure){ return (structure.structureType == STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] > 0)}});
@@ -12,11 +12,11 @@ var roleUpgrader = {
              var links = creep.room.find(FIND_STRUCTURES, { filter: (s) => {return s.structureType == STRUCTURE_LINK;}});
 
 
-            
+
             /*if (creep.memory.role == 'upgrader'){
                 creep.moveTo(Game.flags["Harvest1"].room);
             } */
-            
+
             if(creep.memory.upgrading && creep.carry.energy == 0) {
                 creep.memory.upgrading = false;
                 creep.say('🔄 harvest');
@@ -47,7 +47,7 @@ var roleUpgrader = {
                     }
                }
                else{
-               
+
                 var sources = creep.room.find(FIND_SOURCES_ACTIVE);
                  if(storages.store[RESOURCE_ENERGY] > 0){
                         if(creep.withdraw(storages, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
@@ -71,11 +71,11 @@ var roleUpgrader = {
                             creep.moveTo(storages, {visualizePathStyle: {stroke:"red"}});
                     }
                 }
-                
+
                 else if(creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(sources[1], {visualizePathStyle: {stroke: '#ffaa00'}});
                 }
-               
+
             }
             if(creep.room.controller.sign == undefined){
                 if(creep.room.controller) {
@@ -88,4 +88,4 @@ var roleUpgrader = {
         }
     };
 
-    module.exports = roleUpgrader;
+    module.exports = upgrader;

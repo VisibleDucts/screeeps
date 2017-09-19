@@ -1,10 +1,10 @@
 //Credit goes to complexQuanta for this code.
 
 var getRecycled = {
-    getRecycled: function(creep: Creep) {
+    getRecycled: function(creep) {
         var sp
         if(creep.memory.roomGoal && (creep.memory.roomGoal in Memory.roomToSpawn)) {
-            sp = Game.spawns[Memory.roomToSpawn[(creep.memory.roomGoal as string)]]
+            sp = Game.spawns[Memory.roomToSpawn[(creep.memory.roomGoal]];
         }
         else if(!creep.room || !(creep.room.name in Memory.roomToSpawn))
             sp = Game.spawns["Spawn4"]

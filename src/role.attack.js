@@ -2,7 +2,7 @@ var modeOffensive = true;
 var attackCreep = true;;
 var attackStructure = false;
 
-var roleAttack = {
+var attacker = {
     run: function(creep, goal){
         // creep.moveTo(Game.flags[goal], { visualizePathStyle: { stroke: '#22B91B' } });
         if (modeOffensive){
@@ -47,4 +47,4 @@ var roleAttack = {
         }
     }
 };
-module.exports = roleAttack;
+module.exports = attacker;

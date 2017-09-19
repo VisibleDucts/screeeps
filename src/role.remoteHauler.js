@@ -1,4 +1,4 @@
-var roleRemoteHauler = {
+var remoteHauler = {
 
 
         run: function(creep, loc, homeID) {
@@ -102,4 +102,4 @@ var roleRemoteHauler = {
         }
     };
 
-    module.exports = roleRemoteHauler;
+    module.exports = remoteHauler;

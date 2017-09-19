@@ -1,4 +1,4 @@
-var roleRemote = {
+var remote = {
 
     run: function(creep, loc, sourceID, canID) {
 
@@ -21,8 +21,8 @@ var roleRemote = {
 
         else{
             //console.log(canID);
-            if(canID == undefined) return;
-            if(can.length > 0 && can[canID].store[RESOURCE_ENERGY] < 2000){
+            if(canID == undefined || canID == null) return;
+            if(can.length > 0 && can[canID] != undefined && can[canID].store[RESOURCE_ENERGY] < 2000){
                 if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}});
                 }
@@ -36,4 +36,4 @@ var roleRemote = {
     }
 };
 
-module.exports = roleRemote;
+module.exports = remote;

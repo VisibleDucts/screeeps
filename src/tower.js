@@ -1,7 +1,7 @@
-var roleTower = {
+var tower = {
 
     run: function(tower){
-        var AllianceMembers = ["Shylo132", "mnuck", "Name"];
+        Memory.allianceMembers = new Set(['Shylo132', 'mnuck', 'Lord Pong', 'complexQuanta', 'Augl', 'mightyleguan', 'pragmascript']);
         const hurtCreep = tower.pos.findClosestByRange(FIND_MY_CREEPS, {
             filter: function(object) {
                 return object.hits < object.hitsMax;
@@ -43,4 +43,4 @@ var roleTower = {
         }
     }
 };
-module.exports = roleTower;
+module.exports = tower;
