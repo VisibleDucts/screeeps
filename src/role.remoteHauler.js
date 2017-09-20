@@ -1,7 +1,7 @@
 var remoteHauler = {
 
 
-        run: function(creep, loc, homeID) {
+        run: function(creep, loc,useLink, homeID) {
 
             if(creep.memory.hauling && creep.carry.energy == 0) {
                 creep.memory.hauling = false;
@@ -64,12 +64,19 @@ var remoteHauler = {
                 }
 
 
-                if(/*creep.pos.toString() == Game.flags[homeID].pos.toString() && */creep.carry.energy == creep.carryCapacity){
+                if(/*creep.pos.toString() == Game.flags[homeID].pos.toString() && */creep.carry.energy > 0){ //creep.carryCapacity){
                     var storages = creep.room.storage;
-                    var links = creep.room.find(FIND_STRUCTURES, {
-                        filter: (structure) => {
-                            return (structure.structureType == STRUCTURE_LINK);}
-                    });
+                    if(useLink){
+                        var links = creep.room.find(FIND_STRUCTURES, {
+                            filter: (structure) => {
+                                return (structure.structureType == STRUCTURE_LINK);}
+                        });
+                        if(links){
+                            if(creep.transfer(links[2], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
+                                creep.moveTo(links[2], {reusePath:10});
+                            }
+                        }
+                    }
                     //creep.say('hideeee');
                  // console.log(links.length > 1);
                    /* if(loc == Game.flags['Remote2'].pos){

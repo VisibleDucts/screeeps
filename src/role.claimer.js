@@ -4,18 +4,18 @@ var reserve = true;
 
 var claimer = {
 
-    run: function(creep){
+    run: function(creep, where){
 
         if (modeClaim){
 
-            if (Game.flags["Claim"] == undefined){
+            if (Game.flags[where] == undefined){
                 console.log("No Claim Flag Found?");
                 return;
             }
             else{
 
-                if (creep.room != Game.flags["Claim"].room) {
-                    creep.moveTo(Game.flags["Claim"], { visualizePathStyle: { stroke: '#22B91B' } });
+                if (creep.room != Game.flags[where].room) {
+                    creep.moveTo(Game.flags[where], { visualizePathStyle: { stroke: '#22B91B' } });
                     return;
                 }
             }

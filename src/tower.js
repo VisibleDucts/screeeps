@@ -26,17 +26,20 @@ var tower = {
             });
             var minClose = _.min(repairTargets, 'hits');
 
-            if(tower.energy > 600 && !closestHostile){
+            if(tower.energy > 800 && !closestHostile){
                 if(repairTargets) {
                     tower.repair(minClose);
+                    return;
                 }
             }
             if(closestHostile) {
                 tower.attack(closestHostile);
+                return;
             }
 
             if(!closestHostile && hurtCreep) {
-                tower.heal(hurtCreep)
+                tower.heal(hurtCreep);
+                return;
             }
 
 

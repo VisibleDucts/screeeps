@@ -63,6 +63,22 @@ var defender = {
                 }
             }
         }
+        else if(job == 'ramparter'){
+            if (Game.flags[loc] == undefined){
+                console.log('No ' + loc + ' Flag Found?');
+                return;
+            }
+            else{
+                if (creep.pos != Game.flags[loc].pos) {
+                    creep.moveTo(Game.flags[loc], { visualizePathStyle: { stroke: '#22B91B' } });
+                    return;
+                }
+            }
+            const targets = creep.pos.findInRange(FIND_HOSTILE_CREEPS, 3);
+            if(targets.length > 0) {
+                creep.rangedAttack(targets[0]);
+            }
+        }
         else{
             if(creep.attack(closestHostile) == ERR_NOT_IN_RANGE) {
                creep.moveTo(closestHostile);

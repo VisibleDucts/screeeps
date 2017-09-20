@@ -19,6 +19,7 @@ var rangedAttacker = {
             }
         }
         if (attackCreep){
+            //NEED TO MAKE THEM STAY AT MAX RANGE
              //exmaple from api
             let enemy = creep.room.find(FIND_HOSTILE_CREEPS);
             const targets = creep.pos.findInRange(FIND_HOSTILE_CREEPS, 3);
@@ -42,3 +43,15 @@ var rangedAttacker = {
     }
 };
 module.exports = rangedAttacker;
+
+/*  getRange API EXAMPLE
+const range = creep.pos.getRangeTo(target);
+if(range <= 3) {
+    creep.rangedAttack(target);
+}
+
+// API example of inRangeTo
+if(creep.pos.inRangeTo(target, 3)) {
+    creep.rangedAttack(target);
+}
+*/

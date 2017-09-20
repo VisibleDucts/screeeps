@@ -29,6 +29,7 @@ var upgrader = {
             if(creep.memory.upgrading && creep.room.controller != ERR_NOT_OWNER) {
                 if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}});
+                    return;
                 }
             }
             else {
@@ -37,11 +38,13 @@ var upgrader = {
                     if(links == undefined) return;
                     if(links[1].energy >= creep.carryCapacity && creep.withdraw(links[1], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
                         creep.moveTo(links[1])
+                        return;
                     }
                     else{
                         if(storages.store[RESOURCE_ENERGY] > 0){
                             if(creep.withdraw(storages, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
                                 creep.moveTo(storages, {visualizePathStyle: {stroke:"red"}});
+                                return;
                             }
                         }
                     }
@@ -52,6 +55,7 @@ var upgrader = {
                  if(storages.store[RESOURCE_ENERGY] > 0){
                         if(creep.withdraw(storages, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
                             creep.moveTo(storages, {visualizePathStyle: {stroke:"red"}});
+                            return;
                     }
                 }
                 if(targety) {
@@ -59,21 +63,25 @@ var upgrader = {
                    //console.log(targety);
                     if(creep.pickup(targety) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(targety);
+                        return;
                     }
                 }
                 else if(can.length > 0 && can[0].store[RESOURCE_ENERGY] > 200){
                     if(creep.withdraw(can[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
                         creep.moveTo(can[0], {visualizePathStyle: {stroke: "#00aaFF"}});
+                        return;
                     }
                 }
                 if(storages.store[RESOURCE_ENERGY] > 0){
                         if(creep.withdraw(storages, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
                             creep.moveTo(storages, {visualizePathStyle: {stroke:"red"}});
+                            return;
                     }
                 }
 
                 else if(creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(sources[1], {visualizePathStyle: {stroke: '#ffaa00'}});
+                    return;
                 }
 
             }
@@ -81,6 +89,7 @@ var upgrader = {
                 if(creep.room.controller) {
                    if (creep.signController(creep.room.controller, "[Former Ecorp Territory] f**k society") == ERR_NOT_IN_RANGE) {
                         creep.moveTo(creep.room.controller);
+                        return;
                     }
                 }
             }

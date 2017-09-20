@@ -32,6 +32,8 @@ var linkHauler = {
                 if(can.store[RESOURCE_ENERGY] >= 200 && (creep.withdraw(can, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE)){
                     creep.moveTo(can, {reusePath: 10});
                 }
+
+
             }
             else if(roomID == 1){
                 let storages = creep.room.storage;
@@ -42,9 +44,18 @@ var linkHauler = {
         }
 
         if(creep.memory.hauling){
-            if(links.length > 0){
-                if(creep.transfer(links[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
-                    creep.moveTo(links[0], {reusePath:10});
+            if(roomID == 0){
+                if(links.length > 0){
+                    if(creep.transfer(links[1], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
+                       creep.moveTo(links[1], {reusePath:10});
+                    }
+                }
+            }
+            else if(roomID == 1){
+                if(links.length > 0){
+                    if(creep.transfer(links[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
+                       creep.moveTo(links[0], {reusePath:10});
+                    }
                 }
             }
         }

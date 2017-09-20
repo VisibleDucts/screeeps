@@ -30,6 +30,7 @@ var builder = {
             if(targets.length) {
                 if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
+                    return;
                 }
             }
             else{
@@ -40,6 +41,7 @@ var builder = {
                 if(repairTargets.length > 0) {
                     if(creep.repair(minTarget) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(minTarget);
+                        return;
                     }
                 }
             }
@@ -49,16 +51,19 @@ var builder = {
              if(targetx.length > 0) {
                 if(creep.pickup(targetx[0]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targetx[0]);
+                    return;
                 }
 
             }
             if(storages && storages.store[RESOURCE_ENERGY] > 0){
                 if(creep.withdraw(storages, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
                     creep.moveTo(storages);
+                    return;
                 }
             }
             else if(creep.harvest(sourcesOG[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
-                creep.moveTo(sourcesOG[0], {visualizePathStyle: {stroke: '#ffaa00'}})
+                creep.moveTo(sourcesOG[0], {visualizePathStyle: {stroke: '#ffaa00'}});
+                return;
             }
         }
 

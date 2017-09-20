@@ -10,6 +10,7 @@ var remote = {
              if(creep.room.controller) {
                  if (creep.signController(creep.room.controller, "[Former Ecorp Territory] f**k society") == ERR_NOT_IN_RANGE) {
                      creep.moveTo(creep.room.controller);
+                     return;
                  }
              }
          }
@@ -25,11 +26,13 @@ var remote = {
             if(can.length > 0 && can[canID] != undefined && can[canID].store[RESOURCE_ENERGY] < 2000){
                 if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}});
+                    return;
                 }
             }
             else if(can.length == 0){
                 if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}});
+                    return;
                 }
             }
         }
