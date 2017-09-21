@@ -55,14 +55,18 @@ profiler.wrap(function() {
 	/***** Room variables. Change if rooms are changed! ****/
 	var room1 = Game.rooms['W43S27'];
 	var room2 = Game.rooms['W43S28'];
+	//Will break code if no visibility
 	var remoteRoom1 = Game.rooms['W42S27'];
+	var limesRoom = Game.rooms['W42S28'];
 
 
+	//Naming convention needs to be better.
     var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
     var harvesters2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester2');
     var defenders = _.filter(Game.creeps, (creep) => creep.memory.role == 'defender');
 	var defenders2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'defender2');
 	var defenders3 = _.filter(Game.creeps, (creep) => creep.memory.role == 'defender3');
+	var defenders4 = _.filter(Game.creeps, (creep) => creep.memory.role == 'defender4');
     var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
     var builders2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder2');
     var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
@@ -146,13 +150,18 @@ profiler.wrap(function() {
     var spawn2 = Game.spawns['Spawn2'];
 
     if(!Game.spawns['Spawn2'].spawning){
-        if(room2.energyAvailable < 500 && harvesters2.length < 1){
-            if(harvesters2.length < 1){
+		//Need too change to something like "if room needs rebooted" that
+        if(room2.energyAvailable < 500 && harvesters2.length < 1 && sharvesterR2.length < 1 && sharvesterR2_1.length < 1){
+            if(harvesters2.length < 1 && spawn2.canCreateCreep('default')){
                 var newName = Game.spawns['Spawn2'].createCreep([WORK,CARRY,MOVE], undefined, {role:'harvester2'});
                 console.log('Spawning new harvester from Spawn2: ' + newName);
             }
         }
-        else{
+		else if((haulers2.length < 1) && (spawn2.canCreateCreep(bodyPicker('hauler')) == 0)){
+			var newName = Game.spawns['Spawn2'].createCreep(bodyPicker('hauler'), undefined, {role:'hauler2', job:'normal'});
+			console.log('Spawning new hauler in Spawn2: ' + newName);
+		}
+        else if(haulers.length > 0){
             if(harvesters2.length < 0 && (spawn2.canCreateCreep([MOVE,MOVE,MOVE,WORK,WORK,WORK,CARRY]) == 0)){
                 var newName = Game.spawns['Spawn2'].createCreep([MOVE,MOVE,MOVE,WORK,WORK,WORK,CARRY], undefined, {role:'harvester2'});
                 console.log('Spawning new harvester in Spwan2: ' + newName);
@@ -161,7 +170,7 @@ profiler.wrap(function() {
                 var newName = Game.spawns['Spawn2'].createCreep([MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY], undefined, {role:'builder2'});
                 console.log('Spawning new builder in Spawn2: ' + newName);
             }
-            if((upgraders2.length < 2) && (spawn2.canCreateCreep(bodyPicker('upgrader_small')) == 0)){
+            if((upgraders2.length < 1) && (spawn2.canCreateCreep(bodyPicker('upgrader_small')) == 0)){
                 var newName = Game.spawns['Spawn2'].createCreep(bodyPicker('upgrader_small'), undefined, {role:'upgrader2'});
                 console.log('Spawning new upgrader in Spawn2: ' + newName);
             }
@@ -173,10 +182,7 @@ profiler.wrap(function() {
                 var newName = Game.spawns['Spawn2'].createCreep([WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE], undefined, {role:'towerHauler2'});
                 console.log('Spawning new Tower Hauler in Spawn2: ' + newName);
             }
-            if((haulers2.length < 1) && (spawn2.canCreateCreep(bodyPicker('hauler')) == 0)){
-                var newName = Game.spawns['Spawn2'].createCreep(bodyPicker('hauler'), undefined, {role:'hauler2', job:'normal'});
-                console.log('Spawning new hauler in Spawn2: ' + newName);
-            }
+
             if(sharvesterR2.length < 1 && (haulers2.length > 0) && (spawn2.canCreateCreep([MOVE,WORK,WORK,WORK,WORK, WORK]) == 0)){
                 var newName = Game.spawns['Spawn2'].createCreep([MOVE,WORK,WORK,WORK,WORK, WORK], undefined, {role:'sharvesterR2', sourceID:'5982fc22b097071b4adbce38', flag:'Harvest_R2_0'});
                 console.log('Spawning new sharvesterR2 in Spawn2: ' + newName);
@@ -219,13 +225,17 @@ profiler.wrap(function() {
                     var newName = Game.spawns['Spawn2'].createCreep(bodyPicker('healer_small'), undefined, {role: 'healer'});
                     console.log('Spawning new Healer at Spawn2: ' + newName);
             }
-			if((minerals2.length < 1)  && (spawn2.canCreateCreep(bodyPicker('mineral_small')) == 0)){
+			if((minerals2.length < 0)  && (spawn2.canCreateCreep(bodyPicker('mineral_small')) == 0)){
                 var newName = Game.spawns['Spawn2'].createCreep(bodyPicker('mineral_small'), undefined, {role: 'mineral2', job: 'normal',goal:'home', home: room2.toString()});
                 console.log('Spawning new Mineral Extractor at Spawn2: ' + newName);
             }
-			if(defenders3.length < 1 && (spawn2.canCreateCreep(bodyPicker('ramparter'))) == 0){
+			if(defenders3.length < 0 && (spawn2.canCreateCreep(bodyPicker('ramparter'))) == 0){
 				var newName = Game.spawns['Spawn2'].createCreep(bodyPicker('ramparter'), undefined, {role:'defender3', job:'ramparter', home:'Spawn2', loc: 'ramparter'});
 				console.log('Spawning new Defender at Spawn2: ' + newName);
+			}
+			if(roleDismantlers.length < 0 && (spawn2.canCreateCreep(bodyPicker('dismantler')) == 0)){
+				var newName = Game.spawns['Spawn2'].createCreep(bodyPicker('dismantler'), undefined, {role: 'dismantler', loc: 'Kill', job:'destroy', jobID: 0});
+				console.log('Spawning new Dismantler at Spawn2: ' + newName);
 			}
 
             //Doesn't work! Well, I think it only works when you want one in two rooms.
@@ -242,7 +252,7 @@ profiler.wrap(function() {
     if(!Game.spawns['Spawn1'].spawning){
 
         //Auto-Spawning code for each role.
-        if(room1.energyAvailable <= 500){
+        if(room1.energyAvailable <= 500 && sharvester.length < 1 && sharvester2.length < 1 && haulers.length < 1){
             if(harvesters.length < 1 && (haulers.length < 1) &&  spawn1.canCreateCreep([WORK, CARRY, MOVE]) == 0){
                 var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], undefined, {role:'harvester'});
                 console.log('Spawning new harvester: ' + newName);
@@ -280,12 +290,16 @@ profiler.wrap(function() {
 				var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('guard'), undefined, {role:'defender', job:'guard', home:'Spawn1', loc: 'Claim'});
 				console.log('Spawning new Defender at Spawn1: ' + newName);
 			}
-			if(defenders2.length < 2 && (haulers.length > 0) && (sharvester.length > 0) && (upgraders.length > 0) && (spawn1.canCreateCreep(bodyPicker('guard'))) == 0){
+			if(defenders2.length < 0 && (haulers.length > 0) && (sharvester.length > 0) && (spawn1.canCreateCreep(bodyPicker('guard'))) == 0){
 				var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('guard'), undefined, {role:'defender2', job:'guard', home: room1.toString(), loc: 'Remote_Room'});
 				console.log('Spawning new Defender2 at Spawn1: ' + newName);
 			}
+			if(defenders4.length < 0 && (haulers.length > 0) && (sharvester.length > 0) && (spawn1.canCreateCreep(bodyPicker('ramparter'))) == 0){
+				var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('ramparter'), undefined, {role:'defender4', job:'ramparter', home: room1.toString(), loc: 'Remote_Room'});
+				console.log('Spawning new Defender4 at Spawn1: ' + newName);
+			}
 
-            if((upgraders.length < 2) && (spawn1.canCreateCreep(bodyPicker('upgrader')) == 0)){
+            if((upgraders.length < 1) && (spawn1.canCreateCreep(bodyPicker('upgrader')) == 0)){
                 var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('upgrader'), undefined, {role:'upgrader'});
                 console.log('Spawning new upgrader at Spawn1: ' + newName);
             }
@@ -307,12 +321,12 @@ profiler.wrap(function() {
                 var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('towerHauler'), undefined, {role:'towerHauler'});
                 console.log('Spawning new Tower Hauler: ' + newName);
             }
-            if((claimers.length < 1) && (remoteRoom1.controller.reservation.ticksToEnd < 3000) &&(upgraders.length >= 1 && repairers.length >= 1) && (spawn1.canCreateCreep(bodyPicker('claimer')) == 0)){
+            if((claimers.length < 0) && (upgraders.length >= 1 && repairers.length >= 1) && (spawn1.canCreateCreep(bodyPicker('claimer')) == 0)){
                 var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('claimer'), undefined, {role:'claimer', where:'Remote_Room'});
                 console.log('Spawning new claimer: ' + newName);
             }
 			//Source ID shoudl be in memory. Not hardcoded.
-            if((remotes.length < 1) && (spawn1.canCreateCreep(bodyPicker('remote')) == 0)){
+            if((remotes.length < 0) && (spawn1.canCreateCreep(bodyPicker('remote')) == 0)){
                 var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('remote'), undefined, {role: 'remote', sourceID:'5982fc2eb097071b4adbcf80', canID: 0});
                 console.log('Spawning new remoteHarvester: ' + newName);
             }
@@ -324,7 +338,7 @@ profiler.wrap(function() {
                 var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('remote'), undefined, {role: 'remote3', sourceID:'5982fc17b097071b4adbcccd', canID: 1});
                 console.log('Spawning new remoteHarvester3 from Spawn1: ' + newName);
             }
-            if((remoteHaulers.length < 1) && (spawn1.canCreateCreep(bodyPicker('remoteHauler')) == 0)){
+            if((remoteHaulers.length < 0) && (spawn1.canCreateCreep(bodyPicker('remoteHauler')) == 0)){
                 var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('remoteHauler'), undefined, {role: 'remoteHauler', hauling: '', loc: 'Remote',useLink: false, homeID:'Main'});
                 console.log('Spawning new remote hauler from Spawn1: ' + newName);
             }
@@ -334,7 +348,7 @@ profiler.wrap(function() {
             }
 
             //need to change code to  use memory loc to determine where to go. Not hardcode it.
-            if((remoteRepairers.length < 1) && (spawn1.canCreateCreep(bodyPicker('remoteRepairer')) == 0)){
+            if((remoteRepairers.length < 0) && (spawn1.canCreateCreep(bodyPicker('remoteRepairer')) == 0)){
                 var newName = Game.spawns['Spawn1'].createCreep(bodyPicker('remoteRepairer'), undefined, {role: 'remoteRepairer', loc: 'Remote'});
                 console.log('Spawning new remoteRepairer: ' + newName);
             }
@@ -484,6 +498,9 @@ profiler.wrap(function() {
             defender.run(creep, creep.memory.job, creep.memory.loc);
         }
 		if(creep.memory.role == 'defender3'){
+            defender.run(creep, creep.memory.job, creep.memory.loc);
+        }
+		if(creep.memory.role == 'defender4'){
             defender.run(creep, creep.memory.job, creep.memory.loc);
         }
         if(creep.memory.role == 'attacker'){

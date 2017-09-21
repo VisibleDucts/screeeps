@@ -29,7 +29,7 @@ var defender = {
                     }
                 }
             if (attackCreep){
-                let target = creep.room.find(FIND_HOSTILE_CREEPS, {filter: (p) => {return (p.owner.username != 'Shylo132')
+                var target = creep.room.find(FIND_HOSTILE_CREEPS, {filter: (p) => {return (p.owner.username != 'Shylo132')
                         && (p.owner.username != 'mnuck')
                         && (p.owner.username != 'LordPong')
                         && (p.owner.username != 'complexQuanta')
@@ -47,7 +47,7 @@ var defender = {
                     return;
                 }
             }
-            if(dropped.length) {
+            if(dropped.length && !target) {
                 if(creep.pickup(dropped[0]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(dropped[0], {visualizePathStyle: {stroke: '#ffaa00'}});
                     return;
@@ -74,9 +74,24 @@ var defender = {
                     return;
                 }
             }
+
             const targets = creep.pos.findInRange(FIND_HOSTILE_CREEPS, 3);
+            let hurtCreep = creep.pos.findinRange(FIND_MY_CREEPS,3, {
+                filter: function(object) {
+                    return object.hits < object.hitsMax;
+                }
+            });
+
+            if(hurtCreep) {
+                    creep.heal(hurtCreep)
+                    return;
+                }
+
             if(targets.length > 0) {
                 creep.rangedAttack(targets[0]);
+            }
+            if(creep.hits < creep.hitsMax){
+                creep.moveTo(targets.pos.x - 3, targets.pos.y - 3);
             }
         }
         else{

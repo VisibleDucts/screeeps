@@ -7,15 +7,17 @@ bodyPicker = function(role){
         var body;
         switch(role){
 
-            case 'harvester': body = [MOVE,MOVE,MOVE,WORK,WORK,CARRY]; break;
-            case 'defender': body = [TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK,ATTACK,MOVE]; break;
-            case 'ramparter': body = [TOUGH,TOUGH,TOUGH,MOVE,RANGED_ATTACK,RANGED_ATTACK,MOVE,RANGED_ATTACK,MOVE]; break;
-            case 'guard' : body = [TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,CARRY,ATTACK,ATTACK,ATTACK,MOVE]; break;
-            case 'hauler': body = [MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY]; break;
-            case 'hauler_min': body = [MOVE,MOVE,CARRY,CARRY,CARRY,CARRY]; break;
-            case 'sharvester': body = [MOVE,WORK,WORK,WORK,WORK,WORK]; break;
-            case 'sharvester2': body = [MOVE,WORK,WORK,WORK,WORK,WORK]; break;
-            case 'upgrader': body = [MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY]; break;
+            case 'harvester': body =    [MOVE,MOVE,MOVE,WORK,WORK,CARRY]; break;
+            case 'defender': body =     [TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK,ATTACK,MOVE]; break;
+            case 'ramparter': body =    //[TOUGH,TOUGH,TOUGH,MOVE,RANGED_ATTACK,RANGED_ATTACK,MOVE,RANGED_ATTACK,MOVE]; break;
+                                        [TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,HEAL,MOVE]; break;
+            case 'guard' : body =    //   [TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,CARRY,ATTACK,ATTACK,ATTACK,MOVE]; break;
+                                        [TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,MOVE]; break;
+            case 'hauler': body =       [MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY]; break;
+            case 'hauler_min': body =   [MOVE,MOVE,CARRY,CARRY,CARRY,CARRY]; break;
+            case 'sharvester': body =   [MOVE,WORK,WORK,WORK,WORK,WORK]; break;
+            case 'sharvester2': body =  [MOVE,WORK,WORK,WORK,WORK,WORK]; break;
+            case 'upgrader': body =     [MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY]; break;
             case 'upgrader_small': body = [MOVE,MOVE,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY]; break;
             case 'builder': body = [MOVE,MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY]; break;
             case 'repair': body = [MOVE,MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY]; break;

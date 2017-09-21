@@ -95,7 +95,7 @@ var hauler = {
             }
         }
         }
-        if(!creep.memory.hauling && job == 'normal'){
+        if(!creep.memory.hauling && job == 'normal'|| job == undefined || job == null){
 
 
             if((creep.carry.energy < creep.carryCapacity) && (creep.room.energyAvailable <= creep.room.energyCapacityAvailable)) {
@@ -129,10 +129,12 @@ var hauler = {
                     return;
                 }
 
-                else if(storages.store[RESOURCE_ENERGY] > 0 && creep.room.energyAvailable < creep.room.energyCapacityAvailable){
-                    if(creep.withdraw(storages, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
-                        creep.moveTo(storages,{reusePath: 10}, {visualizePathStyle: {stroke:"red"}});
-                         return;
+                else if(storages){
+                    if(storages.store[RESOURCE_ENERGY] > 0 && creep.room.energyAvailable < creep.room.energyCapacityAvailable){
+                        if(creep.withdraw(storages, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
+                            creep.moveTo(storages,{reusePath: 10}, {visualizePathStyle: {stroke:"red"}});
+                            return;
+                        }
                     }
                 }
             }

@@ -1,6 +1,6 @@
 var modeOffensive = true;
-var destroySpawn =  false;
-var destroyStructure = true;
+var destroySpawn =  true;
+var destroyStructure = false;
 
 var dismantler = {
     run: function(creep, loc, job){
