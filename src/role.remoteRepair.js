@@ -2,18 +2,9 @@ var remoteRepair = {
 
     run: function(creep, loc){
 
-        //const repairTargets = creep.room.find(FIND_STRUCTURES, {filter: (structure) => { return(structure.structureType == STRUCTURE_WALL) && structure.hits < structure.hitsMax;}});
+        //Game.creeps.Nathaniel.moveTo(13, 37)
 
-         //Game.creeps.Nathaniel.moveTo(13, 37)
-
-        var can = creep.room.find(FIND_STRUCTURES, {filter: (structure) => {return (structure.structureType == STRUCTURE_CONTAINER);}});
-        const repairTargets = creep.room.find(FIND_STRUCTURES, {filter: function(structure){
-                    return ((structure.structureType == STRUCTURE_CONTAINER && structure.hits < 200000) || (structure.structureType == STRUCTURE_ROAD && structure.hits < 3000))
-                }});
-        //const repairCans = creep.room.find(FIND_STRUCTURES, {filter: function(s){return s.structureType == STRUCTURE_CONTAINER && s.hits < 200000;}});
-
-        //var fixit;
-
+        
         if (Game.flags[loc] == undefined){
             console.log('No ' + loc + ' Flag Found?');
             return;
@@ -36,24 +27,10 @@ var remoteRepair = {
         }
 
 
-
-
-    /*    if(loc == Game.flags['Remote'].pos){
-            if (creep.room != Game.flags["Remote"].room){
-                creep.moveTo(Game.flags["Remote"]);
-                return;
-            }
-        }
-        else if(loc == Game.flags['Remote2'].pos){
-            if (creep.room != Game.flags["Remote2"].room){
-                creep.moveTo(Game.flags["Remote2"]);
-                return;
-            }
-        } */
-
         if((creep.room == Game.flags[loc].room) && creep.carry.energy < creep.carryCapacity && !creep.memory.building){
             const targetx = creep.room.find(FIND_DROPPED_RESOURCES, { filter: (r) => { return r.resourceType == RESOURCE_ENERGY; }});
-           // creep.say('hip');
+            var can = creep.room.find(FIND_STRUCTURES, {filter: (s) => {return (s.structureType == STRUCTURE_CONTAINER);}});
+
             if(targetx.length > 0) {
                 if(creep.pickup(targetx[0]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targetx[0], {reusePath: 50});
@@ -76,18 +53,15 @@ var remoteRepair = {
         if(creep.memory.building) {
             var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
 
-            /*
-            if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}});
-            } */
-           /*if(fixit){
-                if(creep.repair(fixit) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(fixit);
-                }
-            }
-            else*/ if(targets.length) {
+            const repairTargets = creep.room.find(FIND_STRUCTURES, {filter: function(s){
+                        return ((s.structureType == STRUCTURE_CONTAINER && s.hits < 200000)
+                                || (s.structureType == STRUCTURE_ROAD && s.hits < 3000))
+                    }});
+
+            if(targets.length) {
                 if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
+                    return;
                 }
             }
             else{
@@ -96,7 +70,6 @@ var remoteRepair = {
                     if(creep.repair(repairTargets[0]) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(repairTargets[0]);
                         return;
-
                     }
                 }
                /* if(repairCans){
@@ -110,10 +83,10 @@ var remoteRepair = {
             }
         }
                if(creep.room.controller.sign == undefined){
-                    creep.say('hi');
                     if(creep.room.controller) {
                         if (creep.signController(creep.room.controller, "[Former Ecorp Territory] f**k society") == ERR_NOT_IN_RANGE) {
                             creep.moveTo(creep.room.controller);
+                            return;
                         }
                     }
                 }

@@ -1,22 +1,9 @@
 var hauler = {
 
-    run: function(creep, links, job){
+    run: function(creep, links,goal, job, homeID){
 
        /// Game.creeps.Cole.moveTo(Game.flags['Main'].pos);
         var storages = creep.room.storage;
-        var can = creep.room.find(FIND_STRUCTURES, { filter: function(s){ return (s.structureType == STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] >= creep.carryCapacity)}});
-        var targets = creep.room.find(FIND_STRUCTURES, {
-                filter: (s) => {
-                    return (s.structureType == STRUCTURE_EXTENSION || s.structureType == STRUCTURE_SPAWN) && s.energy < s.energyCapacity;
-                }
-        }); // extensions and spawn
-        var sources = creep.room.find(FIND_SOURCES_ACTIVE); // energy sources
-        const targetx = creep.room.find(FIND_DROPPED_RESOURCES, { filter: (r) => { return r.resourceType == RESOURCE_ENERGY; }});
-        var tower = creep.room.find(FIND_STRUCTURES, {filter: (s) => { return s.structureType == STRUCTURE_TOWER; }});
-        var labs = creep.room.find(FIND_STRUCTURES, {filter: (l) => {return l.structureType == STRUCTURE_LAB && l.energy < l.energyCapacity; }});
-        var term = creep.room.terminal;
-        //Game.creeps.Nicholas.moveTo(new RoomPosition(25, 20, 'W43S27'));
-
 
         if(creep.memory.hauling && creep.carry.energy == 0) {
             creep.memory.hauling = false;
@@ -28,8 +15,12 @@ var hauler = {
             creep.memory.hauling = true;
             creep.say('Hauling');
         }
+        ///////////////    JOB LINKS/LABS/TERMINAL   ///////////////////////////
         if(job == 'links[0]'){
+            var labs = creep.room.find(FIND_STRUCTURES, {filter: (l) => {return l.structureType == STRUCTURE_LAB && l.energy < l.energyCapacity; }});
+            var term = creep.room.terminal;
 
+        ////////////// TERMINAL ////////////////  (loook into this. Is it seperate from the energy withdrawing of labs and links for a reason?)
             if(term){
                 var total = _.sum(creep.carry);
                 if(total < creep.carryCapacity){
@@ -63,6 +54,7 @@ var hauler = {
                     if(creep.carry.energy > 0){
                         if(creep.transfer(term, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
                             creep.moveTo(term);
+                            return;
                         }
                     }
                     if(creep.transfer(term, RESOURCE_LEMERGIUM) == ERR_NOT_IN_RANGE){
@@ -71,48 +63,96 @@ var hauler = {
                     }
                 }
             }
+            ////////////////// LINKS + LABS /////////////////////////
+            else if(links){
+                if(creep.carry.energy < creep.carryCapacity){
+                    if(creep.withdraw(links[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
+                        creep.moveTo(links[0]);
+                        return;
+                    }
+                }
+                if(creep.carry.energy == creep.carryCapacity){
+                    if(labs){
+                        if(creep.transfer(labs[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
+                            creep.moveTo(labs[0]);
+                            return;
+                        }
+                    }
+                    if(storages){
+                        if(creep.transfer(storages, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
+                            creep.moveTo(storages);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
 
-        else if(links){
-            if(creep.carry.energy < creep.carryCapacity){
-                if(creep.withdraw(links[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
-                    creep.moveTo(links[0]);
+        if(job == 'carrier'){
+
+            // Grab energy //
+            if(!creep.memory.hauling && storages && creep.room != Game.flags[goal].room){
+
+                if(storages.store[RESOURCE_ENERGY] > 20000){
+                    if(creep.withdraw(storages, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
+                        creep.moveTo(storages,{reusePath: 10}, {visualizePathStyle: {stroke:"red"}});
+                        return;
+                    }
+                }
+            }
+            // Going code //
+            if(creep.memory.hauling){
+                if (Game.flags[goal] == undefined){
+                    console.log('No ' + goal + ' Flag Found?');
                     return;
                 }
-            }
-            if(creep.carry.energy == creep.carryCapacity){
-                if(labs){
-                    if(creep.transfer(labs[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
-                        creep.moveTo(labs[0]);
+                else{
+                    if (creep.room != Game.flags[goal].room) {
+                        creep.moveTo(Game.flags[goal], { visualizePathStyle: { stroke: '#22B91B' } });
                         return;
                     }
                 }
-                if(storages){
-                    if(creep.transfer(storages, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
-                        creep.moveTo(storages);
-                        return;
+
+                // Store code //
+                if(creep.room == Game.flags[goal].room){
+                    if(Game.flags[goal].room.storage == undefined) return;
+                    if(creep.pos != Game.flags[goal].room.storage.pos){
+                        creep.moveTo(Game.flags[goal].room.storage,{reusePath: 10}, {visualizePathStyle: {stroke: '#ffffff'}});
+                        for(const resourceType in creep.carry) {
+                            creep.transfer(Game.flags[goal].room.storage, resourceType);
+                                   return;
+                        }
+                    }
+                }
+            }
+            // Coming code //
+            if(!creep.memory.hauling){
+
+                for(name in Memory.rooms){
+                    if(creep.memory.homeID == Memory.rooms[name].homeID){
+
+                        if (creep.room != Memory.rooms[name].roomName) {
+                            creep.moveTo(Game.flags[Memory.rooms[name].flag], { visualizePathStyle: { stroke: '#22B91B' } });
+                            return;
+                        }
                     }
                 }
             }
         }
-        }
+
+        ///// NORMAL HAULING, aka, grab from containers/links/storage and fill spawn and extensions. /////////
+            //  Energy Grabbing //
         if(!creep.memory.hauling && job == 'normal'|| job == undefined || job == null){
 
 
             if((creep.carry.energy < creep.carryCapacity) && (creep.room.energyAvailable <= creep.room.energyCapacityAvailable)) {
-
-               // if(can.length > 0 && can[0].store[RESOURCE_ENERGY] > 0){  <---why was this here?????
-                /*if(creep.memory.role != 'hauler2'){
-                    if(links.length > 0){
-
-                        if(links[0] != undefined && links[0].energy){
-                            if(creep.withdraw(links[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
-                                creep.moveTo(links[0], {reusePath: 10});
-                                 return;
-                            }
+                const targetx = creep.room.find(FIND_DROPPED_RESOURCES, { filter: (r) => { return r.resourceType == RESOURCE_ENERGY; }});
+                var can = creep.room.find(FIND_STRUCTURES, { filter: function(s){
+                    return (s.structureType == STRUCTURE_CONTAINER &&
+                            s.store[RESOURCE_ENERGY] >= creep.carryCapacity)
                         }
-                    }
-                }*/
-               // }
+                    });
+
                 if(targetx.length > 0) {
                     if(creep.pickup(targetx[0]) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(targetx[0], {reusePath: 10});
@@ -139,10 +179,18 @@ var hauler = {
                 }
             }
         }
-
+            // Energy Storing //
         if(creep.memory.hauling && job == 'normal') {
-            if(creep.carry.energy > 0) {
 
+            var tower = creep.room.find(FIND_STRUCTURES, {filter: (s) => { return s.structureType == STRUCTURE_TOWER; }});
+
+            if(creep.carry.energy > 0) {
+                var targets = creep.room.find(FIND_STRUCTURES, {
+                        filter: (s) => {
+                            return (s.structureType == STRUCTURE_EXTENSION || s.structureType == STRUCTURE_SPAWN)
+                                    && s.energy < s.energyCapacity;
+                        }
+                });
 
 
                 if((targets.length > 0) && (creep.room.energyAvailable < creep.room.energyCapacityAvailable)) {
@@ -151,6 +199,7 @@ var hauler = {
                         return;
                     }
                 }
+                // Tower hauling for free time. Patchwork code. IF > 0 (1 or more) fill the first tower. If 2 towers, fill the second. Has to be a better way
                 else if(tower.legnth > 0 && (tower[0].energy < 600) && creep.transfer(tower[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
                     creep.moveTo(tower[0],{reusePath: 10}, {visualizePathStyle: {stroke: '#000000'}});
                     return;
@@ -164,23 +213,14 @@ var hauler = {
                     if(storages == undefined) return;
                     if(creep.pos != storages.pos){
                         creep.moveTo(storages,{reusePath: 10}, {visualizePathStyle: {stroke: '#ffffff'}});
-                         creep.say('hid');
-                         for(const resourceType in creep.carry) {
+                        for(const resourceType in creep.carry) {
                             creep.transfer(storages, resourceType);
+                            return;
                         }
                     }
 
-
-
-                   // }
-
-
-                    /*
-                    if(creep.transfer(storages, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
-                        creep.moveTo(storages,{reusePath: 10}, {visualizePathStyle: {stroke: '#ffffff'}});
-                    }*/
                 }
-                //}
+
             }
         }
     }

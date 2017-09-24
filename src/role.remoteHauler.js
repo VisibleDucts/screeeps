@@ -36,17 +36,17 @@ var remoteHauler = {
 
                 if(can.length > 0 && can[0].store[RESOURCE_ENERGY] > 499){
                     if(creep.withdraw(can[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
-                        creep.moveTo(can[0], {reusePath: 50}, {visualizePathStyle: {stroke: "#00aaFF"}});
+                        creep.moveTo(can[0], {reusePath: 10}, {visualizePathStyle: {stroke: "#00aaFF"}});
                     }
                 }
                 else if(can.length > 1 && can[1].store[RESOURCE_ENERGY] > 499){
                     if(creep.withdraw(can[1], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
-                        creep.moveTo(can[1], {reusePath: 50}, {visualizePathStyle: {stroke: "#00aaFF"}});
+                        creep.moveTo(can[1], {reusePath: 10}, {visualizePathStyle: {stroke: "#00aaFF"}});
                     }
                 }
                 if(targetx.length > 0) {
                     if(creep.pickup(targetx[0]) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(targetx[0], {reusePath: 50});
+                        creep.moveTo(targetx[0], {reusePath: 10});
                     }
                 }
             }

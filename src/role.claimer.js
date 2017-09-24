@@ -1,21 +1,38 @@
 var modeClaim = true;
-var claimCon = false;
-var reserve = true;
+
 
 var claimer = {
 
-    run: function(creep, where){
+    run: function(creep, job, goal){
+
+        if(job == undefined){
+            console.log('Where\'s my Job?!');
+        }
+        else if(job == 'claiming'){
+            var claimCon = true;
+            var reserve = false;
+        }
+        else if(job == 'reserving'){
+            var reserve = true;
+            var claimCon = false;
+        }
+        else if(job == 'attacking'){
+            var reserve = false;
+            var claimCon = false;
+            var attacking = true;
+
+        }
 
         if (modeClaim){
 
-            if (Game.flags[where] == undefined){
+            if (Game.flags[goal] == undefined){
                 console.log("No Claim Flag Found?");
                 return;
             }
             else{
 
-                if (creep.room != Game.flags[where].room) {
-                    creep.moveTo(Game.flags[where], { visualizePathStyle: { stroke: '#22B91B' } });
+                if (creep.room != Game.flags[goal].room) {
+                    creep.moveTo(Game.flags[goal], { visualizePathStyle: { stroke: '#22B91B' } });
                     return;
                 }
             }
@@ -34,6 +51,13 @@ var claimer = {
             if (creep.reserveController(target) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(target, { visualizePathStyle: { stroke: '#22B91B' } });
                 return;
+            }
+        }
+        else if(attacking){
+            if(creep.room.controller && !creep.room.controller.my) {
+                if(creep.attackController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(creep.room.controller);
+                }
             }
         }
 

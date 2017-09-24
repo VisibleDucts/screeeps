@@ -47,6 +47,16 @@ var upgrader = {
                                 return;
                             }
                         }
+                        else{
+                            if(can){
+                                if(can.store[RESOURCE_ENERGY] > 200){
+                                    if(creep.withdraw(can[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
+                                        creep.moveTo(can[0], {visualizePathStyle: {stroke: "#00aaFF"}});
+                                        return;
+                                    }
+                                }
+                            }
+                        }
                     }
                }
                else{
@@ -78,7 +88,6 @@ var upgrader = {
                             return;
                     }
                 }
-
                 else if(creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(sources[1], {visualizePathStyle: {stroke: '#ffaa00'}});
                     return;

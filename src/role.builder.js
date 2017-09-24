@@ -3,13 +3,6 @@ var builder = {
     /** @param {Creep} creep **/
     run: function(creep) {
    // Game.creeps.Jeremiah.moveTo(new RoomPosition(25, 20, 'W43S27'));
-        var sources = creep.room.find(FIND_STRUCTURES, {
-            filter: (structure) => {
-                return (structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN);}
-        });
-        const storages = creep.room.storage;
-        const targetx = creep.room.find(FIND_DROPPED_RESOURCES, { filter: (r) => { return r.resourceType == RESOURCE_ENERGY; }});
-
 
         if(creep.memory.building && creep.carry.energy == 0) {
             creep.memory.building = false;
@@ -20,13 +13,9 @@ var builder = {
             creep.say('🚧 build');
         }
 
-        //console.log(creep.owner.username);
-
-
-
-
         if(creep.memory.building) {
             var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+
             if(targets.length) {
                 if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
@@ -34,10 +23,10 @@ var builder = {
                 }
             }
             else{
+                
                 const repairTargets = creep.room.find(FIND_STRUCTURES, {filter: object => object.hits < object.hitsMax});
                 minTarget = _.min(repairTargets, 'hits')
-               // repairTargets.sort((a,b) => a.hits - b.hits);
-                //console.log(repairTargets.length);
+
                 if(repairTargets.length > 0) {
                     if(creep.repair(minTarget) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(minTarget);
@@ -47,7 +36,9 @@ var builder = {
             }
         }
         else {
+            const targetx = creep.room.find(FIND_DROPPED_RESOURCES, { filter: (r) => { return r.resourceType == RESOURCE_ENERGY; }});
             var sourcesOG = creep.room.find(FIND_SOURCES_ACTIVE);
+            const storages = creep.room.storage;
              if(targetx.length > 0) {
                 if(creep.pickup(targetx[0]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targetx[0]);

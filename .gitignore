@@ -1,2 +1,5 @@
 /.screeps.json
 /node_modules/*
+/role.tower.js
+/notes.js
+/profilesInCPU

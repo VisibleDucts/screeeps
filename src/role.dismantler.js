@@ -12,7 +12,7 @@ var dismantler = {
             case 'destroy': hired = 1; break;
             default: /*console.log('Wheres the job?! Now what do I do??');*/ hired = 3;
         }
-      // console.log(hired);
+
       creep.moveTo(Game.flags[loc].pos);
         if (modeOffensive){
             if (Game.flags[loc] == undefined){
@@ -20,7 +20,7 @@ var dismantler = {
                 return;
             }
             else{
-                //console.log(creep.room.toString() + ' ' + Game.flags[loc].room.toString());
+
 
                 if (creep.room != Game.flags[loc].room) {
                     //creep.say('d');
@@ -40,7 +40,7 @@ var dismantler = {
             return;
         }
         if(hired == 0){
-            //creep.say('Helping!');
+
             let target = Game.getObjectById('59b72ddc626b947ea454bfdb');
             if (target == null) return;
             if(creep.dismantle(target) == ERR_NOT_IN_RANGE){
@@ -50,9 +50,9 @@ var dismantler = {
 
         }
         else if(hired == 1){
-            //creep.say('DESTROY!');
+            
             if(destroyStructure){
-                 let targetx= undefined; // Game.getObjectById('59b40db26149815ad0de3e10'); //Rampart of soonk.
+                let targetx= undefined; // Game.getObjectById('59b40db26149815ad0de3e10'); //Rampart of soonk.
                 if (targetx == undefined) return;
                     if(creep.dismantle(target) == ERR_NOT_IN_RANGE){
                         creep.moveTo(target, { visualizePathStyle: { stroke: '#22B91B' } });

@@ -1,3 +1,26 @@
+//Mnucks wall/rampart upgrade code
+if (Game.time % 1000 == 0 &&
+        Game.rooms.W37S37.storage &&
+        Game.rooms.W37S37.storage.store.energy > 20000) {
+        Memory.rooms.W37S37.wallSize += 1000;
+        Memory.rooms.W37S37.rampartSize += 1000;
+    }
+/************** part 2 *******/
+var walls = t.room.find(
+                FIND_STRUCTURES,
+                {
+                    filter: s=> { return s.structureType == STRUCTURE_WALL &&
+                                         s.hits < Memory.rooms[t.room.name].wallSize; }
+                }
+            );
+            if (walls.length > 0) {
+                let target = _.min(walls, w => w.hits);
+                t.repair(target);
+                return;
+            }
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
 var room1 = Game.rooms['W43S27'];
 var room2 = Game.rooms['W43S28'];

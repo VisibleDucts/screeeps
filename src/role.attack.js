@@ -1,10 +1,10 @@
 var modeOffensive = true;
-var attackCreep = true;;
+var attackCreep = true;
 var attackStructure = false;
 
 var attacker = {
     run: function(creep, goal){
-        // creep.moveTo(Game.flags[goal], { visualizePathStyle: { stroke: '#22B91B' } });
+        creep.moveTo(Game.flags[goal], { visualizePathStyle: { stroke: '#22B91B' } });
         if (modeOffensive){
             if (Game.flags[goal] == undefined){
                 console.log("No " + goal + " Flag Found?");
@@ -24,7 +24,8 @@ var attacker = {
                     && (p.owner.username != 'complexQuanta')
                     && (p.owner.username != 'Augl')
                     && (p.owner.username != 'mightyleguan')
-                    && (p.owner.username != 'pragmascript');
+                    && (p.owner.username != 'pragmascript')
+                    && (p.owner.username != 'Jestersheepy');
                 }
             });
             creep.say('HUG ME');
