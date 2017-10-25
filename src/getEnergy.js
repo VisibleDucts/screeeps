@@ -5,9 +5,11 @@ getEnergy = function(creep){
     const can = creep.room.find(FIND_STRUCTURES, { filter: function(s){ return (s.structureType == STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] > 49)}});
 
 
-    if(creep.harvest(sources[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
-        creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
-        return;
+    if(dropped.length) {
+        if(creep.pickup(dropped[0]) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(dropped[0], {visualizePathStyle: {stroke: '#ffaa00'}});
+            return;
+        }
     }
     if(can.length){
         if((can.length == 1) && (creep.withdraw(can[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE)){
@@ -21,12 +23,7 @@ getEnergy = function(creep){
             }
         }
     }
-    if(dropped.length) {
-        if(creep.pickup(dropped[0]) == ERR_NOT_IN_RANGE) {
-            creep.moveTo(dropped[0], {visualizePathStyle: {stroke: '#ffaa00'}});
-            return;
-        }
-    }
+
 
     if(creep.room.storage){
         if(creep.room.storage[RESOURCE_ENERGY] > 0){
@@ -35,6 +32,10 @@ getEnergy = function(creep){
                 return;
             }
         }
+    }
+    if(creep.harvest(sources[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
+        creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
+        return;
     }
 
 }

@@ -1,6 +1,37 @@
-findWay = function(verbose){
+findWay = function(creep, verbose){
 
     if(!verbose){
+        if(!creep.memory.state) {
+            creep.memory.state = 'One';
+        }
+
+        switch(creep.memory.state) {
+            case 'One':
+                creep.moveTo(Game.flags['One']);
+                if(creep.pos.toString() == Game.flags['One'].pos.toString()){
+                    creep.memory.state = 'Four';
+                }
+                break;
+            case 'Four':
+                creep.moveTo(Game.flags['Four']);
+                if(creep.pos.toString() == Game.flags['Four'].pos.toString()){
+                    creep.memory.state = 'Five';
+                }
+                break;
+            case 'Five':
+                creep.moveTo(Game.flags['Five']);
+                if(creep.pos.toString() == Game.flags['Five'].pos.toString()){
+                    creep.memory.state = 'Want';
+                }
+                break;
+            case 'Want':
+                creep.moveTo(Game.flags['Want']);
+                break;
+        }
+    }
+
+
+    /*if(!verbose){
         const route = Game.map.findRoute(creep.room, Game.room['W49S27'], {
             routeCallback(roomName, fromRoomName) {
         if(roomName == 'W48S26') {    // avoid this room
@@ -9,7 +40,7 @@ findWay = function(verbose){
         return 1;
     }});
     console.log(route);
-    }
+    } */
 
     if(verbose){
         let from = new RoomPosition(25, 25, 'W43S27');

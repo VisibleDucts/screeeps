@@ -1,3 +1,40 @@
+// for(var upgradr of upgraders){
+
+      // console.log(i)
+
+     //  console.log(upgraders[i].memory.job)
+   //}
+
+
+   /*tryRenew: function(spawn) {
+	   	if(spawn.spawning || spawn.room.energyAvailable < 300) {
+		   	return;
+	   	}
+	   	const needsRenewFilter = function(creep) {
+		   	if(!(creep.ticksToLive < 1400)) {
+			   	return false;
+		   	}
+		   	if(creep.getActiveBodyparts(CLAIM)) {
+			   	return false;
+		   	}
+		   	const boostedParts = _.filter(<Array<any>>creep.body, x => x.boost)
+		   	if(boostedParts.length) {
+			   	return false;
+		   	}
+		   	return true;
+	   	}
+	   	var adj = spawn.pos.findInRange(FIND_MY_CREEPS, 1, {filter: needsRenewFilter});
+	   	if(adj.length > 0) {
+		   	var creep = adj[0];
+		   	// console.log("Repairing creep: ", creep.name, creep.ticksToLive);
+		   	if(spawn.renewCreep(creep) == 0) {
+			   	Memory.building[spawn.name] = true;
+		   	}
+	   	}
+   	}*/
+
+
+
 //Mnucks wall/rampart upgrade code
 if (Game.time % 1000 == 0 &&
         Game.rooms.W37S37.storage &&
